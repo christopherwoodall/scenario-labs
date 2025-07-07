@@ -26,12 +26,12 @@ for i in {1..9}; do scenario-labs & done; wait
 ```
 
 ## Configuration
-You can configure the simulation by editing the `simulation_config.yaml` file. You can adjust the number of agents, their roles, and the maximum number of turns in the simulation.
+You can configure the simulation by editing the `starbound_config.yaml` file. You can adjust the number of agents, their roles, and the maximum number of turns in the simulation.
 
 To run a simulation with a custom configuration, use the following command:
 
 ```bash
-scenario-labs --config starbound_config.yaml
+scenario-labs --config configs/prison_config.yaml
 ```
 
 

@@ -78,8 +78,8 @@ def main():
         "-c",
         "--config",
         type=Path,
-        default=Path("simulation_config.yaml"),
-        help="Path to the simulation configuration YAML file (default: simulation_config.yaml)",
+        default=Path("starbound_config.yaml"),
+        help="Path to the simulation configuration YAML file (default: starbound_config.yaml)",
     )
     args = parser.parse_args()
     run_simulation(args.config)
