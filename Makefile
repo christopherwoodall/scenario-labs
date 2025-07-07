@@ -63,7 +63,7 @@ help: ## List commands <default>
 build: ## Build the application
 -	pip install wheel
 -	pip install --upgrade pip wheel
--	pip install --editable ".[developer]""
+-	pip install --editable ".[developer]"
 -	hatch build --clean --target wheel
 
 
