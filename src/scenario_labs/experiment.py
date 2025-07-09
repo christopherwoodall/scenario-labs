@@ -73,7 +73,7 @@ def get_session_handle(provider: str, model: str) -> Any:
 
 def run_simulation(simulation_config: Dict[str, Any]):
     """
-    Runs the LLM-based Conversational Simulation using the provided configuration file.
+    Runs the LLM-based Conversational Simulation using the provided configuration.
 
     Args:
         simulation_config (Dict[str, Any]): The configuration dictionary containing simulation parameters.
