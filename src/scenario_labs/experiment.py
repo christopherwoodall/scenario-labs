@@ -4,8 +4,7 @@ from pathlib import Path
 from typing import Any, Dict, Optional
 
 import yaml
-from xai_sdk import Client
-from xai_sdk.chat import system
+import xai_sdk
 
 from google import genai
 
@@ -15,27 +14,9 @@ import scenario_labs
 GLOBAL_PROVIDER_KEYS = {"xai": "XAI_API_KEY", "google": "GEMINI_API_KEY"}
 
 
-def read_config(file_path: Path) -> Optional[Dict[str, Any]]:
-    """
-    Reads a YAML configuration file and returns its content as a dictionary.
-
-    Args:
-        file_path (Path): The path to the YAML configuration file.
-
-    Returns:
-        Optional[Dict[str, Any]]: Parsed configuration dictionary, or None if the file is missing or invalid.
-    """
-    if not file_path.exists():
-        print(f"[Error] Configuration file '{file_path}' does not exist.")
-        return None
-
-    with file_path.open("r") as file:
-        return yaml.safe_load(file)
-
-
 def get_api_handle(provider: str) -> Any:
     """
-    Returns the API key environment variable name based on the provider.
+    Returns the API client handle based on the provider.
 
     Args:
         provider (str): The name of the provider (e.g., 'xai', 'google').
@@ -58,7 +39,7 @@ def get_api_handle(provider: str) -> Any:
         raise ValueError(f"API key is not set for provider: {provider}")
 
     if provider == "xai":
-        client = Client(api_key=api_key)
+        client = xai_sdk.Client(api_key=api_key)
     elif provider == "google":
         client = genai.Client(api_key=api_key)
 
@@ -82,53 +63,70 @@ def get_session_handle(provider: str, model: str) -> Any:
     #        https://ai.google.dev/gemini-api/docs/openai
     #      - Google chat API
     #        https://github.com/googleapis/python-genai?tab=readme-ov-file#send-message-synchronous-non-streaming
-    return api_handler.chats.create(model=model)
+    if provider == "xai":
+        session = api_handler.chat.create(model=model)
+    elif provider == "google":
+        session = api_handler.chats.create(model=model)
+
+    return session
 
 
-def run_simulation(config_path: Path):
+def run_simulation(simulation_config: Dict[str, Any]):
     """
     Runs the LLM-based Conversational Simulation using the provided configuration file.
 
     Args:
-        config_path (Path): Path to the simulation configuration YAML file.
+        simulation_config (Dict[str, Any]): The configuration dictionary containing simulation parameters.
     """
-    config = read_config(config_path)
-    simulation_config = config["simulation_config"]
-
     agents = {}
     simulation_name = simulation_config["name"]
     max_turns = simulation_config["max_turns"]
+    log_directory = simulation_config["log_directory"]
 
     for agent in simulation_config.get("agents", []):
         if "id" not in agent or "role" not in agent:
             print("[Warning] Skipping agent with missing 'id' or 'role'.")
             continue
 
-        initial_prompt = "\n".join(
-            [simulation_config.get("system_prompt", ""), agent["initial_prompt"]]
-        )
-
-        provider = simulation_config.get("provider", "xai").strip().lower()
         model = simulation_config.get("model", "grok-3").strip().lower()
+        provider = simulation_config.get("provider", "xai").strip().lower()
 
         session_handle = get_session_handle(provider, model)
-        session_handle.messages = [system(initial_prompt)]
+
+        # TODO - Find a common way to append and chat with the agent.
+        #        *** See agents/LLMAgent.py for more details. ***
+        #        handle them seperately in the agents module. (I like this one)
+        # TODO - Works for Google, not for xAI - error:
+        # AttributeError: property 'messages' of 'Chat' object has no setter
+        # session_handle.messages = [xai_sdk.chat.system(initial_prompt)]
+
+        # TODO - Works for xAI, not for Google - error:
+        # AttributeError: 'Chat' object has no attribute 'append'
+        # session_handle.append(xai_sdk.chat.system(initial_prompt))
 
         agents[agent["id"]] = scenario_labs.agents.LLMAgent.LLMAgent(
             agent_id=agent["id"],
             role=agent["role"],
+            system_prompt=simulation_config.get("system_prompt", ""),
             initial_prompt=agent["initial_prompt"],
             session=session_handle,
         )
 
         print(f"[Info] Agent created: {agent['id']} ({agent['role']})")
 
-    print(agents)
-    # simulation = scenario_labs.simulations.conversation.ConversationSimulation(simulation_name, agents, max_turns=max_turns)
-    # simulation.run()
+    if not agents:
+        raise ValueError(
+            "[Error] No valid agents found in the configuration. Please check the 'agents' section."
+        )
+
     # TODO - Remove, bypass for linting errors.
+    print(agents)
     print(simulation_name)
     print(max_turns)
+    print(log_directory)
+
+    # simulation = scenario_labs.simulations.conversation.ConversationSimulation(simulation_name, agents, max_turns=max_turns)
+    # return simulation.run()
 
 
 def main():
@@ -143,7 +141,12 @@ def main():
         help="Path to the simulation configuration YAML file (default: starbound_config.yaml)",
     )
     args = parser.parse_args()
-    run_simulation(args.config)
+
+    config_path = Path(args.config)
+    config_text = config_path.read_text(encoding="utf-8")
+    config_data = yaml.safe_load(config_text)
+
+    return run_simulation(config_data["simulation_config"])
 
 
 if __name__ == "__main__":

@@ -156,3 +156,4 @@ class ConversationSimulation:
                     )
 
         self.get_log()
+        return self

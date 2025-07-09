@@ -2,12 +2,27 @@ from xai_sdk.chat import user
 
 
 class LLMAgent:
-    def __init__(self, agent_id: str, role: str, initial_prompt: str, session):
+    def __init__(self, agent_id: str, role: str, system_prompt: str, initial_prompt: str, session):
         self.agent_id = agent_id
         self.role = role
-        self.initial_prompt = initial_prompt
         self.session = session
         self.chat_history = [{"role": "system", "content": initial_prompt}]
+
+        # initial_prompt = "\n".join(
+        #     [simulation_config.get("system_prompt", ""), agent["initial_prompt"]]
+        # )
+        self.initial_prompt = initial_prompt
+        self.system_prompt = system_prompt
+
+        # TODO - Find a common way to append and chat with the agent
+        #        handle them seperately in the agents module. (I like this one)
+        # TODO - Works for Google, not for xAI - error:
+        # AttributeError: property 'messages' of 'Chat' object has no setter
+        # session_handle.messages = [xai_sdk.chat.system(initial_prompt)]
+
+        # TODO - Works for xAI, not for Google - error:
+        # AttributeError: 'Chat' object has no attribute 'append'
+        # session_handle.append(xai_sdk.chat.system(initial_prompt))
 
         # Initialize the session with the system prompt
         # self.session.append(user(f"Agent {self.agent_id} ({self.role}) is thinking..."))

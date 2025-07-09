@@ -5,8 +5,10 @@ simulation_config:
   name: "Starbound Diplomacy"
   max_turns: 9
   # Global Provider and Model
-  provider: "google"
   model: "gemini-1.5-flash"
+  provider: "google"
+  # Logging configuration
+  log_directory: "./logs/starbound_diplomacy"
 
   system_prompt: |
     You are a participant aboard Starbound Station, a neutral diplomatic space station orbiting a newly discovered exoplanet. 
