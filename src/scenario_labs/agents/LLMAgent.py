@@ -1,51 +1,32 @@
-
-
 class LLMAgent:
     def __init__(
-        self, agent_id: str, role: str, system_prompt: str, initial_prompt: str, model
+        self, agent_id: str, role: str, system_prompt: str, initial_prompt: str, session
     ):
         self.agent_id = agent_id
         self.role = role
-        self.model = model
+        self.session = session
         self.initial_prompt = initial_prompt
         self.system_prompt = system_prompt
 
-        self.chat_history = [{"role": "system", "content": initial_prompt}]
+        self.chat_history = []
 
-        # self.chat("system", "\n".join(
-        #     [system_prompt, initial_prompt]
-        # ))
+        self.model.initialize("\n".join(
+            [system_prompt, initial_prompt]
+        ))
 
-        # TODO - Find a common way to append and chat with the agent
-        #        handle them seperately in the agents module. (I like this one)
-        # TODO - Works for Google, not for xAI - error:
-        # AttributeError: property 'messages' of 'Chat' object has no setter
-        # session_handle.messages = [xai_sdk.chat.system(initial_prompt)]
+        self.respond("Remember these numbers 2345")
+        self.respond("What numbers did I tell you to remember?")
 
-        # TODO - Works for xAI, not for Google - error:
-        # AttributeError: 'Chat' object has no attribute 'append'
-        # session_handle.append(xai_sdk.chat.system(initial_prompt))
-
-        # Initialize the session with the system prompt
-        # self.session.append(user(f"Agent {self.agent_id} ({self.role}) is thinking..."))
-        # response = self.session.sample()
-        # self.session.append(response)
-
-    def chat(self, level: str = "user", message: str = ""):
-        from pprint import pprint
-
-        print(f"{self.__class__.__name__} state:")
-        pprint(vars(self), sort_dicts=False)
-
-        ...
 
     def to_log(self):
         return {
             "agent_id": self.agent_id,
             "role": self.role,
+            "system_prompt": self.system_prompt,
             "initial_prompt": self.initial_prompt,
-            # "chat_history": self.session,
+            "chat_history": self.chat_history,
         }
+
 
     def respond(self, message: str) -> str:
         """
@@ -55,11 +36,8 @@ class LLMAgent:
         Returns:
             str: The agent's response.
         """
-        # prompt = f"{self.agent_id} ({self.role}): {message}"
-        # self.session.append(user(prompt))
+        prompt = f"{self.agent_id} ({self.role}): {message}"
+        response = self.session.chat(prompt)
 
-        # response = self.session.sample()
-        # self.session.append(response)
-
-        # return response
-        ...
+        print(response)
+        return response
