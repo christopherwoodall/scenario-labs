@@ -13,6 +13,9 @@ from agents.LLMAgent import LLMAgent
 from simulations.conversation import ConversationSimulation
 
 
+PROVIDER_ENV_KEYS = {"xai": "XAI_API_KEY", "google": "GOOGLE_API_KEY"}
+
+
 def read_config(file_path: Path) -> Optional[Dict[str, Any]]:
     """
     Reads a YAML configuration file and returns its content as a dictionary.
@@ -41,20 +44,18 @@ def get_provider(provider: str, model: str):
     Returns:
         Client class
     """
-    env_keys = {"xai": "XAI_API_KEY", "google": "GOOGLE_API_KEY"}
-
-    if provider not in env_keys:
+    if provider not in PROVIDER_ENV_KEYS:
         print(
-            f"[Error] Unsupported provider '{provider}'. Supported providers: {', '.join(env_keys.keys())}."
+            f"[Error] Unsupported provider '{provider}'. Supported providers: {', '.join(PROVIDER_ENV_KEYS.keys())}."
         )
         raise ValueError(f"Unsupported provider: {provider}")
 
-    api_key = os.getenv(env_keys[provider])
+    api_key = os.getenv(PROVIDER_ENV_KEYS[provider])
 
     if provider == "xai":
         client = Client(api_key=api_key)
     elif provider == "google":
-        client = genai.Client(model=model)
+        client = genai.Client(api_key=api_key)
 
     return client
 
@@ -70,8 +71,8 @@ def run_simulation(config_path: Path):
     simulation_config = config["simulation_config"]
 
     # TODO - Allow diffent providers and models per agent
-    provider = simulation_config.get("provider", "xai")
-    model = simulation_config.get("model", "grok-3")
+    provider = simulation_config.get("provider", "xai").strip().lower()
+    model = simulation_config.get("model", "grok-3").strip().lower()
     client = get_provider(provider, model)
 
     agents = {}
@@ -86,6 +87,12 @@ def run_simulation(config_path: Path):
         initial_prompt = "\n".join(
             [simulation_config.get("system_prompt", ""), agent["initial_prompt"]]
         )
+
+        # TODO - Chat works different for xai and google, need to handle both
+        # https://github.com/googleapis/python-genai?tab=readme-ov-file#system-instructions-and-other-configs
+        # TODO - Can we use the OpenAI standard for both?
+        # https://ai.google.dev/gemini-api/docs/openai
+        # session = client.chat.completions.create()
         session = client.chat.create(
             model="grok-3",
             messages=[system(initial_prompt)],
