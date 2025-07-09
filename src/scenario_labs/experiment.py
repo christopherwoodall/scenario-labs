@@ -10,8 +10,6 @@ from xai_sdk.chat import system
 from google import genai
 
 import scenario_labs
-from scenario_labs.agents.LLMAgent import LLMAgent
-from scenario_labs.simulations.conversation import ConversationSimulation
 
 
 GLOBAL_PROVIDER_KEYS = {"xai": "XAI_API_KEY", "google": "GEMINI_API_KEY"}
@@ -54,7 +52,9 @@ def get_api_handle(provider: str) -> Any:
         raise ValueError(f"Unsupported provider: {provider}")
 
     if api_key is None:
-        print(f"[Error] API key for provider '{provider}' is not set. Please set the environment variable '{GLOBAL_PROVIDER_KEYS[provider]}'.")
+        print(
+            f"[Error] API key for provider '{provider}' is not set. Please set the environment variable '{GLOBAL_PROVIDER_KEYS[provider]}'."
+        )
         raise ValueError(f"API key is not set for provider: {provider}")
 
     if provider == "xai":
@@ -77,7 +77,7 @@ def get_session_handle(provider: str, model: str) -> Any:
         Session handle for the specified provider and model.
     """
     api_handler = get_api_handle(provider)
-    
+
     # TODO - How widely used is the OpenAI standard?
     #        https://ai.google.dev/gemini-api/docs/openai
     #      - Google chat API
@@ -107,25 +107,28 @@ def run_simulation(config_path: Path):
         initial_prompt = "\n".join(
             [simulation_config.get("system_prompt", ""), agent["initial_prompt"]]
         )
-
+        
         provider = simulation_config.get("provider", "xai").strip().lower()
         model = simulation_config.get("model", "grok-3").strip().lower()
-        
+
         session_handle = get_session_handle(provider, model)
         session_handle.messages = [system(initial_prompt)]
 
-        agents[agent["id"]] = LLMAgent(
+        agents[agent["id"]] = scenario_labs.agents.LLMAgent.LLMAgent(
             agent_id=agent["id"],
             role=agent["role"],
             initial_prompt=agent["initial_prompt"],
-            session = session_handle
+            session=session_handle,
         )
 
         print(f"[Info] Agent created: {agent['id']} ({agent['role']})")
 
     print(agents)
-    # simulation = ConversationSimulation(simulation_name, agents, max_turns=max_turns)
+    # simulation = scenario_labs.simulations.conversation.ConversationSimulation(simulation_name, agents, max_turns=max_turns)
     # simulation.run()
+    # TODO - Remove, bypass for linting errors.
+    print(simulation_name)
+    print(max_turns)
 
 
 def main():
