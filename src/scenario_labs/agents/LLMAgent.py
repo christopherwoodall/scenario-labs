@@ -10,11 +10,13 @@ class LLMAgent:
         self.session = session
         self.chat_history = [{"role": "system", "content": initial_prompt}]
 
-        # initial_prompt = "\n".join(
-        #     [simulation_config.get("system_prompt", ""), agent["initial_prompt"]]
-        # )
+
         self.initial_prompt = initial_prompt
         self.system_prompt = system_prompt
+
+        self.chat("system", "\n".join(
+            [system_prompt, initial_prompt]
+        ))
 
         # TODO - Find a common way to append and chat with the agent
         #        handle them seperately in the agents module. (I like this one)
@@ -31,6 +33,18 @@ class LLMAgent:
         # response = self.session.sample()
         # self.session.append(response)
 
+        
+
+
+    def chat(self, level: str = "user", message: str = ""):
+        from pprint import pprint
+
+        print(f"{self.__class__.__name__} state:")
+        pprint(vars(self), sort_dicts=False)
+
+        ...
+
+
     def to_log(self):
         return {
             "agent_id": self.agent_id,
@@ -38,6 +52,7 @@ class LLMAgent:
             "initial_prompt": self.initial_prompt,
             "chat_history": self.session,
         }
+
 
     def respond(self, message: str) -> str:
         """
