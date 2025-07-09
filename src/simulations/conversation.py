@@ -5,7 +5,7 @@ from pathlib import Path
 from typing import Dict, List
 
 
-class PrisonSimulation:
+class ConversationSimulation:
     MESSAGE_PATTERN = r"<agent_reply>(.*?)</agent_reply>"
 
     def __init__(
