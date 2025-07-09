@@ -1,6 +1,6 @@
 [project]
 requires-python = ">=3.10"
-version = "0.0.4"
+version = "0.0.5"
 
 name        = "scenario-labs"
 description = "Framework for building, configuring, and running multi-agent conversational simulations."
