@@ -27,12 +27,6 @@ default: $(.DEFAULT_GOAL)
 all: help
 
 
-define Lint
--	black $(SRC_DIR)
--	ruff check $(SRC_DIR) --fix
-endef
-
-
 define TypeCheck
 	python3 -m mypy src            \
 		--ignore-missing-imports   \
@@ -69,12 +63,13 @@ build: ## Build the application
 
 .PHONY: run
 run: ## Run the application
--	prison-agents
+-	scenario-lab
 
 
 .PHONY: lint
 lint: ## Lint the code
--	$(call Lint)
+-	black $(SRC_DIR)
+-	ruff check $(SRC_DIR) --fix
 
 
 .PHONY: type

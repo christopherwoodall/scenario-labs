@@ -107,7 +107,7 @@ def run_simulation(config_path: Path):
         initial_prompt = "\n".join(
             [simulation_config.get("system_prompt", ""), agent["initial_prompt"]]
         )
-        
+
         provider = simulation_config.get("provider", "xai").strip().lower()
         model = simulation_config.get("model", "grok-3").strip().lower()
 
