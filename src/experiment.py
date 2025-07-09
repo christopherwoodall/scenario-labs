@@ -7,6 +7,8 @@ import yaml
 from xai_sdk import Client
 from xai_sdk.chat import system
 
+from google import genai
+
 from agents.LLMAgent import LLMAgent
 from simulations.conversation import ConversationSimulation
 
@@ -36,11 +38,25 @@ def run_simulation(config_path: Path):
     Args:
         config_path (Path): Path to the simulation configuration YAML file.
     """
-    api_key = os.getenv("XAI_API_KEY")
-    client = Client(api_key=api_key)
-
     config = read_config(config_path)
     simulation_config = config["simulation_config"]
+
+    ## NEW
+    env_keys = {
+        "xai": "XAI_API_KEY",
+        "google": "GOOGLE_API_KEY"
+    }
+    
+    provider = simulation_config.get("provider", "xai")
+    model = simulation_config.get("model", "grok-3")
+
+    api_key = os.getenv(env_keys[provider])
+
+    client = Client(api_key=api_key)
+    # client = genai.Client() # Google GenAI client
+
+    # TODO - Determine the provider in order to use the correct client
+    ## /NEW
 
     agents = {}
     simulation_name = simulation_config["name"]
