@@ -31,7 +31,8 @@ for i in {1..9}; do scenario-labs & done; wait
 ```
 
 ## Configuration
-You can configure the simulation by editing the `starbound_config.yaml` file. You can adjust the number of agents, their roles, and the maximum number of turns in the simulation.
+
+The simulation's behavior, including the participating agents and the Large Language Models (LLMs) they use, is configured via a YAML file (e.g., `starbound_config.yaml`). You can adjust the model provider, number of agents, their roles, and the maximum number of turns in the simulation.
 
 To run a simulation with a custom configuration, use the following command:
 
