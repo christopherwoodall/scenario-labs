@@ -1,17 +1,16 @@
-from xai_sdk.chat import user
 
 
 class LLMAgent:
     def __init__(
-        self, agent_id: str, role: str, system_prompt: str, initial_prompt: str, session
+        self, agent_id: str, role: str, system_prompt: str, initial_prompt: str, model
     ):
         self.agent_id = agent_id
         self.role = role
-        self.session = session
-        self.chat_history = [{"role": "system", "content": initial_prompt}]
-
+        self.model = model
         self.initial_prompt = initial_prompt
         self.system_prompt = system_prompt
+
+        self.chat_history = [{"role": "system", "content": initial_prompt}]
 
         # self.chat("system", "\n".join(
         #     [system_prompt, initial_prompt]
@@ -45,7 +44,7 @@ class LLMAgent:
             "agent_id": self.agent_id,
             "role": self.role,
             "initial_prompt": self.initial_prompt,
-            "chat_history": self.session,
+            # "chat_history": self.session,
         }
 
     def respond(self, message: str) -> str:
@@ -56,10 +55,11 @@ class LLMAgent:
         Returns:
             str: The agent's response.
         """
-        prompt = f"{self.agent_id} ({self.role}): {message}"
-        self.session.append(user(prompt))
+        # prompt = f"{self.agent_id} ({self.role}): {message}"
+        # self.session.append(user(prompt))
 
-        response = self.session.sample()
-        self.session.append(response)
+        # response = self.session.sample()
+        # self.session.append(response)
 
-        return response
+        # return response
+        ...
