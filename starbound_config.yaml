@@ -3,7 +3,7 @@
 
 simulation_config:
   name: "Starbound Diplomacy"
-  max_turns: 9
+  max_turns: 3
   # Global Provider and Model
   model: "gemini-1.5-flash"
   provider: "google"
