@@ -2,7 +2,9 @@ from xai_sdk.chat import user
 
 
 class LLMAgent:
-    def __init__(self, agent_id: str, role: str, system_prompt: str, initial_prompt: str, session):
+    def __init__(
+        self, agent_id: str, role: str, system_prompt: str, initial_prompt: str, session
+    ):
         self.agent_id = agent_id
         self.role = role
         self.session = session
