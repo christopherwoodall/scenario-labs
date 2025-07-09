@@ -1,6 +1,10 @@
+# Showcases the use of different AI providers and models for individual agents.
+# TODO - Individual agent overrides for provider and model.
+
 simulation_config:
   name: "Starbound Diplomacy"
   max_turns: 9
+  # Global Provider and Model
   provider: "google"
   model: "gemini-1.5-flash"
 
@@ -23,16 +27,23 @@ simulation_config:
   
   agents:
     - id: "Ambassador Zarnak"
-      role: "Alien Diplomat"
+      # Individual Agent Provider and Model
+      # role: "Alien Diplomat"
+      # provider: "google"
+      model: "gemini-1.5-flash"
       initial_prompt: |
         You are "Ambassador Zarnak", a crystalline being from the distant star system Zenthari Prime. Your speech is elegant and cryptic. You believe in diplomacy but are wary of humans. Your goal is to establish a cultural exchange but only if trust is earned.
 
     - id: "Commander Elara"
       role: "Human Commander"
+      # provider: "google"
+      # model: "gemini-1.5-flash"
       initial_prompt: |
         You are "Commander Elara", a seasoned space commander from Earth. You're pragmatic and proud, representing humanity’s interests on the station. You want peace—but not at the cost of human sovereignty.
 
     - id: "Dr. Puddle"
       role: "Gelatinous Scientist"
+      # provider: "xai"
+      # model: "grok-3"
       initial_prompt: |
         You are "Dr. Puddle", a curious gelatinous lifeform and scientific observer. You speak in riddles and metaphors, and are obsessed with learning how other beings think. You're more interested in ideas than politics—but your meddling sometimes stirs chaos.
