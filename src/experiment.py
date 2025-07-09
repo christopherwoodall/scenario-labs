@@ -64,6 +64,34 @@ def get_api_handle(provider: str, model: str):
     return client
 
 
+def get_session_handle(provider: str, model: str):
+    """
+    Returns the session handle based on the provider and model.
+
+    Args:
+        provider (str): The name of the provider (e.g., 'xai', 'google').
+        model (str): The name of the model to use.
+
+    Returns:
+        Session handle for the specified provider and model.
+    """
+    api_handler = get_api_handle(provider, model)
+    
+    # TODO - Harmonize the session creation for different providers
+    #      - Chat works different for xai and google, need to handle both
+    #        https://github.com/googleapis/python-genai?tab=readme-ov-file#system-instructions-and-other-configs
+    #      - Can we use the OpenAI standard for both?
+    #        https://ai.google.dev/gemini-api/docs/openai
+    if provider == "xai":
+        return api_handler.chat.create(
+            model=model
+        )
+    elif provider == "google":
+        # TODO - API
+        #        https://github.com/googleapis/python-genai?tab=readme-ov-file#send-message-synchronous-non-streaming
+        return api_handler.chats.create(model='gemini-2.0-flash-001')
+
+
 def run_simulation(config_path: Path):
     """
     Runs the LLM-based Conversational Simulation using the provided configuration file.
@@ -91,20 +119,11 @@ def run_simulation(config_path: Path):
         provider = simulation_config.get("provider", "xai").strip().lower()
         model = simulation_config.get("model", "grok-3").strip().lower()
         
-        client = get_api_handle(provider, model)
         # TODO - Harmonize the session creation for different providers
-        #      - Chat works different for xai and google, need to handle both
-        #        https://github.com/googleapis/python-genai?tab=readme-ov-file#system-instructions-and-other-configs
-        #      - Can we use the OpenAI standard for both?
-        #        https://ai.google.dev/gemini-api/docs/openai
-        #
-        # session = client.chat.create(
-        #     model=model,
-        #     messages=[system(initial_prompt)],
-        # )
-        # 
-        # session = client.chat.completions.create()
-        print(client)
+        session_handler = get_session_handle(provider, model)
+        session_handler.messages = [system(initial_prompt)]
+
+        print(session_handler)
         # /NEW
 
         agents[agent["id"]] = LLMAgent(
