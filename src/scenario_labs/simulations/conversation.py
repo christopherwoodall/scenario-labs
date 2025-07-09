@@ -9,7 +9,11 @@ class ConversationSimulation:
     MESSAGE_PATTERN = r"<agent_reply>(.*?)</agent_reply>"
 
     def __init__(
-        self, simulation_name: str, agents: Dict[str, any], max_turns: int = 12
+        self,
+        simulation_name: str,
+        agents: Dict[str, any],
+        log_directory: str,
+        max_turns: int = 12,
     ):
         """
         Initialize the simulation.
@@ -128,13 +132,13 @@ class ConversationSimulation:
                     "turn": turn,
                     "from_id": agent.agent_id,
                     "to_id": None,
-                    "message": primary_response.content,
+                    "message": primary_response,
                 }
             )
 
             # Handle inter-agent messages
             addressed_messages = self.parse_agent_messages(
-                primary_response.content, from_id=agent.agent_id
+                primary_response, from_id=agent.agent_id
             )
             for msg in addressed_messages:
                 to_agent = self.agents.get(msg["to_id"])
@@ -151,8 +155,9 @@ class ConversationSimulation:
                             "from_id": msg["from_id"],
                             "to_id": msg["to_id"],
                             "message": msg["message"],
-                            "response": reply.content,
+                            "response": reply,
                         }
                     )
 
         self.get_log()
+        return self
