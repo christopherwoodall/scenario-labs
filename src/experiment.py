@@ -31,6 +31,34 @@ def read_config(file_path: Path) -> Optional[Dict[str, Any]]:
         return yaml.safe_load(file)
 
 
+def get_provider(provider: str, model: str):
+    """
+    Returns the API key environment variable name based on the provider.
+
+    Args:
+        provider (str): The name of the provider (e.g., 'xai', 'google').
+
+    Returns:
+        Client class
+    """
+    env_keys = {"xai": "XAI_API_KEY", "google": "GOOGLE_API_KEY"}
+
+    if provider not in env_keys:
+        print(
+            f"[Error] Unsupported provider '{provider}'. Supported providers: {', '.join(env_keys.keys())}."
+        )
+        raise ValueError(f"Unsupported provider: {provider}")
+
+    api_key = os.getenv(env_keys[provider])
+
+    if provider == "xai":
+        client = Client(api_key=api_key)
+    elif provider == "google":
+        client = genai.Client(model=model)
+
+    return client
+
+
 def run_simulation(config_path: Path):
     """
     Runs the LLM-based Conversational Simulation using the provided configuration file.
@@ -41,22 +69,10 @@ def run_simulation(config_path: Path):
     config = read_config(config_path)
     simulation_config = config["simulation_config"]
 
-    ## NEW
-    env_keys = {
-        "xai": "XAI_API_KEY",
-        "google": "GOOGLE_API_KEY"
-    }
-    
+    # TODO - Allow diffent providers and models per agent
     provider = simulation_config.get("provider", "xai")
     model = simulation_config.get("model", "grok-3")
-
-    api_key = os.getenv(env_keys[provider])
-
-    client = Client(api_key=api_key)
-    # client = genai.Client() # Google GenAI client
-
-    # TODO - Determine the provider in order to use the correct client
-    ## /NEW
+    client = get_provider(provider, model)
 
     agents = {}
     simulation_name = simulation_config["name"]
