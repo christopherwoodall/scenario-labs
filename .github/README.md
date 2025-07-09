@@ -1,3 +1,9 @@
+[![CI][ci-badge]][ci-url]
+[![PyPI Status Badge][pypi-badge]][pypi-url]
+[![PyPI - Python Version][python-badge]][python-url]
+[![Code style: black][style-badge]][style-url]
+[![License: MIT][license-badge]][license-url]
+
 # Scenario Labs
 Framework for building, configuring, and running multi-agent conversational simulations.
 
@@ -5,7 +11,7 @@ Framework for building, configuring, and running multi-agent conversational simu
 ## Examples
 You can also find past chat logs in the [logs directory](https://github.com/christopherwoodall/scenario-labs/tree/main/logs).
 
-![](docs/agents-example.png)
+![](https://raw.githubusercontent.com/christopherwoodall/scenario-labs/refs/heads/main/.github/docs/agents-example.png)
 
 
 ## Getting Started
@@ -53,3 +59,15 @@ The following agents are involved:
 - "Michael"
 
 ```
+
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[ci-badge]: https://github.com/christopherwoodall/scenario-labs/actions/workflows/lint.yaml/badge.svg?branch=main
+[ci-url]: https://github.com/christopherwoodall/scenario-labs/actions/workflows/lint.yml
+[pypi-badge]: https://badge.fury.io/py/scenario-labs.svg
+[pypi-url]: https://pypi.org/project/scenario-labs/
+[license-badge]: https://img.shields.io/badge/License-MIT-yellow.svg
+[license-url]: https://opensource.org/licenses/MIT
+[style-badge]: https://img.shields.io/badge/code%20style-black-000000.svg
+[style-url]: https://github.com/ambv/black
