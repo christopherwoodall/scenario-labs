@@ -12,9 +12,6 @@ class LLMAgent:
 
         self.session.initialize("\n".join([system_prompt, initial_prompt]))
 
-        # self.respond("Remember these numbers 2345")
-        # self.respond("What numbers did I tell you to remember?")
-
     def to_log(self):
         return {
             "agent_id": self.agent_id,
@@ -35,5 +32,4 @@ class LLMAgent:
         prompt = f"{self.agent_id} ({self.role}): {message}"
         response = self.session.chat(prompt)
 
-        print(response)
         return response

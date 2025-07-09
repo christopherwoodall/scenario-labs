@@ -20,13 +20,16 @@ def run_simulation(simulation_config: Dict[str, Any]):
     max_turns = simulation_config["max_turns"]
     log_directory = simulation_config["log_directory"]
 
+    model = simulation_config.get("model", "grok-3").strip().lower()
+    provider = simulation_config.get("provider", "xai").strip().lower()
+
     for agent in simulation_config.get("agents", []):
         if "id" not in agent or "role" not in agent:
             print("[Warning] Skipping agent with missing 'id' or 'role'.")
             continue
 
-        model = simulation_config.get("model", "grok-3").strip().lower()
-        provider = simulation_config.get("provider", "xai").strip().lower()
+        model = agent.get("model", model)
+        provider = agent.get("provider", provider)
 
         session = scenario_labs.client.factory.get_chat_client(
             provider=provider,

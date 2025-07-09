@@ -5,8 +5,8 @@ simulation_config:
   name: "Starbound Diplomacy"
   max_turns: 3
   # Global Provider and Model
-  # model: "gemini-1.5-flash"
-  # provider: "google"
+  model: "gemini-1.5-flash"
+  provider: "google"
   # Logging configuration
   log_directory: "./logs/starbound_diplomacy"
 
