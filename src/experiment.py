@@ -13,7 +13,7 @@ from agents.LLMAgent import LLMAgent
 from simulations.conversation import ConversationSimulation
 
 
-GLOBAL_PROVIDER_KEYS = {"xai": "XAI_API_KEY", "google": "GOOGLE_API_KEY"}
+GLOBAL_PROVIDER_KEYS = {"xai": "XAI_API_KEY", "google": "GEMINI_API_KEY"}
 
 
 def read_config(file_path: Path) -> Optional[Dict[str, Any]]:
@@ -104,17 +104,20 @@ def run_simulation(config_path: Path):
         # )
         # 
         # session = client.chat.completions.create()
+        print(client)
         # /NEW
 
         agents[agent["id"]] = LLMAgent(
             agent_id=agent["id"],
             role=agent["role"],
             initial_prompt=agent["initial_prompt"],
+            session = None
             # session=session,
         )
 
         print(f"[Info] Agent created: {agent['id']} ({agent['role']})")
 
+    print(agents)
     # simulation = ConversationSimulation(simulation_name, agents, max_turns=max_turns)
     # simulation.run()
 
