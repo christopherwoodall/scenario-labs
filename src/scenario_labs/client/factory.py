@@ -1,6 +1,7 @@
 import os
 
 from .google import GoogleGenAIClient
+from .openai import OpenAIChatClient
 from .xai import xAIChatClient
 
 
@@ -18,7 +19,7 @@ def get_chat_client(
     Returns:
         Chat client instance for the specified provider and model.
     """
-    PROVIDER_KEYS = {"xai": "XAI_API_KEY", "google": "GEMINI_API_KEY"}
+    PROVIDER_KEYS = {"xai": "XAI_API_KEY", "google": "GEMINI_API_KEY", "openai": "OPENAI_API_KEY"}
 
     provider = provider.strip().lower()
     api_key = os.getenv(PROVIDER_KEYS.get(provider, ""), None)
@@ -37,6 +38,8 @@ def get_chat_client(
 
     if provider == "google":
         return GoogleGenAIClient(api_key=api_key, model=model)
+    if provider == "openai":
+        return OpenAIChatClient(api_key=api_key, model=model)
     if provider == "xai":
         return xAIChatClient(api_key=api_key, model=model)
 

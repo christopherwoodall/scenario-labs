@@ -20,5 +20,8 @@ class GoogleGenAIClient(ChatClient):
         )
 
     def chat(self, message: str) -> Dict[str, Any]:
+        if self.session is None:
+            raise ValueError("Chat session is not initialized.")
+        
         response = self.session.send_message(message)
         return response.text

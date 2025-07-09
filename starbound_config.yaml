@@ -5,8 +5,8 @@ simulation_config:
   name: "Starbound Diplomacy"
   max_turns: 3
   # Global Provider and Model
-  model: "gemini-1.5-flash"
-  provider: "google"
+  provider: "xai"
+  model: "grok-3"
   # Logging configuration
   log_directory: "./logs/starbound_diplomacy"
 
@@ -31,15 +31,15 @@ simulation_config:
     - id: "Ambassador Zarnak"
       role: "Alien Diplomat"
       # Individual Agent Provider and Model
-      provider: "google"
-      model: "gemini-1.5-flash"
+      provider: "openai"
+      model: "gpt-4o"
       initial_prompt: |
         You are "Ambassador Zarnak", a crystalline being from the distant star system Zenthari Prime. Your speech is elegant and cryptic. You believe in diplomacy but are wary of humans. Your goal is to establish a cultural exchange but only if trust is earned.
 
     - id: "Commander Elara"
       role: "Human Commander"
-      provider: "google"
-      model: "gemini-1.5-flash"
+      provider: "openai"
+      model: "gpt-4o"
       initial_prompt: |
         You are "Commander Elara", a seasoned space commander from Earth. You're pragmatic and proud, representing humanity’s interests on the station. You want peace—but not at the cost of human sovereignty.
 

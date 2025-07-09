@@ -125,7 +125,7 @@ class ConversationSimulation:
             thinking_message = f"Agent {agent.agent_id} ({agent.role}) is thinking..."
 
             primary_response = agent.respond(thinking_message)
-            # print(f"Turn {turn} - {agent.agent_id}: {primary_response.content}")
+            print(f"Turn {turn} - {agent.agent_id}: {primary_response.content}")
 
             self.chat_history.append(
                 {

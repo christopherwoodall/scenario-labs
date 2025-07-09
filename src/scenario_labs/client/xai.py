@@ -19,6 +19,9 @@ class xAIChatClient(ChatClient):
         )
 
     def chat(self, message: str) -> Dict[str, Any]:
+        if self.session is None:
+            raise ValueError("Chat session is not initialized.")
+        
         # xai_sdk expects a list of strings or some structured payload
         self.session.append(xai_sdk.chat.user(message))
         response = self.session.sample()
