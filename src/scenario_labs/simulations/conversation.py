@@ -132,13 +132,13 @@ class ConversationSimulation:
                     "turn": turn,
                     "from_id": agent.agent_id,
                     "to_id": None,
-                    "message": primary_response.content,
+                    "message": primary_response,
                 }
             )
 
             # Handle inter-agent messages
             addressed_messages = self.parse_agent_messages(
-                primary_response.content, from_id=agent.agent_id
+                primary_response, from_id=agent.agent_id
             )
             for msg in addressed_messages:
                 to_agent = self.agents.get(msg["to_id"])
@@ -155,7 +155,7 @@ class ConversationSimulation:
                             "from_id": msg["from_id"],
                             "to_id": msg["to_id"],
                             "message": msg["message"],
-                            "response": reply.content,
+                            "response": reply,
                         }
                     )
 
