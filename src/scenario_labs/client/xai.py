@@ -9,7 +9,6 @@ class xAIChatClient(ChatClient):
     def __init__(self, api_key: str, model: str = "grok-3"):
         self.client = xai_sdk.Client(api_key=api_key)
         self.model = self.client.chat.create(model=model)
-        self.history = []
 
     def chat(
         self, messages: List[Dict[str, str]], temperature: float = 0.7, **kwargs

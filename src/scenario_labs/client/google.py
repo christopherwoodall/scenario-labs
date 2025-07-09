@@ -8,7 +8,6 @@ class GoogleGenAIClient(ChatClient):
     def __init__(self, api_key: str, model: str = "gemini-1.5-flash"):
         self.client = genai.Client(api_key=api_key)
         self.model = self.client.chats.create(model=model)
-        self.history = []
 
         from pprint import pprint
 

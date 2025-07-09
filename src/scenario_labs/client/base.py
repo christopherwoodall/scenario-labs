@@ -5,7 +5,6 @@ from typing import List, Dict, Any
 class ChatClient(ABC):
     model: str
     client: str
-    history: List[Dict[str, str]] = []
 
     @abstractmethod
     def chat(
