@@ -8,7 +8,7 @@ from xai_sdk import Client
 from xai_sdk.chat import system
 
 from agents.LLMAgent import LLMAgent
-from simulations.prison import PrisonSimulation
+from simulations.conversation import ConversationSimulation
 
 
 def read_config(file_path: Path) -> Optional[Dict[str, Any]]:
@@ -31,7 +31,7 @@ def read_config(file_path: Path) -> Optional[Dict[str, Any]]:
 
 def run_simulation(config_path: Path):
     """
-    Runs the LLM-based Prison Simulation using the provided configuration file.
+    Runs the LLM-based Conversational Simulation using the provided configuration file.
 
     Args:
         config_path (Path): Path to the simulation configuration YAML file.
@@ -68,12 +68,14 @@ def run_simulation(config_path: Path):
 
         print(f"[Info] Agent created: {agent['id']} ({agent['role']})")
 
-    simulation = PrisonSimulation(simulation_name, agents, max_turns=max_turns)
+    simulation = ConversationSimulation(simulation_name, agents, max_turns=max_turns)
     simulation.run()
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Run the LLM-based Prison Simulation.")
+    parser = argparse.ArgumentParser(
+        description="Run the LLM-based Conversational Simulation."
+    )
     parser.add_argument(
         "-c",
         "--config",
