@@ -4,6 +4,9 @@
 
 from . import experiment
 
+from . import client
+from .client import base, factory, google, xai
+
 from . import agents
 from .agents import LLMAgent
 

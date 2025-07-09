@@ -1,0 +1,18 @@
+from abc import ABC, abstractmethod
+from typing import List, Dict, Any
+
+
+class ChatClient(ABC):
+    model: str
+    client: str
+    history: List[Dict[str, str]] = []
+
+
+    @abstractmethod
+    def chat(
+        self,
+        messages: List[Dict[str, str]],
+        temperature: float = 0.7,
+        **kwargs
+    ) -> Dict[str, Any]:
+        ...

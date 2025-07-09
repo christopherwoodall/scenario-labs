@@ -11,66 +11,6 @@ from google import genai
 import scenario_labs
 
 
-GLOBAL_PROVIDER_KEYS = {"xai": "XAI_API_KEY", "google": "GEMINI_API_KEY"}
-
-
-def get_api_handle(provider: str) -> Any:
-    """
-    Returns the API client handle based on the provider.
-
-    Args:
-        provider (str): The name of the provider (e.g., 'xai', 'google').
-
-    Returns:
-        Client class
-    """
-    api_key = os.getenv(GLOBAL_PROVIDER_KEYS[provider], None)
-
-    if provider not in GLOBAL_PROVIDER_KEYS:
-        print(
-            f"[Error] Unsupported provider '{provider}'. Supported providers: {', '.join(GLOBAL_PROVIDER_KEYS.keys())}."
-        )
-        raise ValueError(f"Unsupported provider: {provider}")
-
-    if api_key is None:
-        print(
-            f"[Error] API key for provider '{provider}' is not set. Please set the environment variable '{GLOBAL_PROVIDER_KEYS[provider]}'."
-        )
-        raise ValueError(f"API key is not set for provider: {provider}")
-
-    if provider == "xai":
-        client = xai_sdk.Client(api_key=api_key)
-    elif provider == "google":
-        client = genai.Client(api_key=api_key)
-
-    return client
-
-
-def get_session_handle(provider: str, model: str) -> Any:
-    """
-    Returns the session handle based on the provider and model.
-
-    Args:
-        provider (str): The name of the provider (e.g., 'xai', 'google').
-        model (str): The name of the model to use.
-
-    Returns:
-        Session handle for the specified provider and model.
-    """
-    api_handler = get_api_handle(provider)
-
-    # TODO - How widely used is the OpenAI standard?
-    #        https://ai.google.dev/gemini-api/docs/openai
-    #      - Google chat API
-    #        https://github.com/googleapis/python-genai?tab=readme-ov-file#send-message-synchronous-non-streaming
-    if provider == "xai":
-        session = api_handler.chat.create(model=model)
-    elif provider == "google":
-        session = api_handler.chats.create(model=model)
-
-    return session
-
-
 def run_simulation(simulation_config: Dict[str, Any]):
     """
     Runs the LLM-based Conversational Simulation using the provided configuration.
@@ -91,14 +31,17 @@ def run_simulation(simulation_config: Dict[str, Any]):
         model = simulation_config.get("model", "grok-3").strip().lower()
         provider = simulation_config.get("provider", "xai").strip().lower()
 
-        session_handle = get_session_handle(provider, model)
+        session = scenario_labs.client.factory.get_chat_client(
+            provider=provider,
+            model=model,
+        )
 
         agents[agent["id"]] = scenario_labs.agents.LLMAgent.LLMAgent(
             agent_id=agent["id"],
             role=agent["role"],
             system_prompt=simulation_config.get("system_prompt", ""),
             initial_prompt=agent["initial_prompt"],
-            session=session_handle,
+            session=session,
         )
 
         print(f"[Info] Agent created: {agent['id']} ({agent['role']})")
