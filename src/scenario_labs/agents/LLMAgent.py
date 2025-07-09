@@ -29,7 +29,7 @@ class LLMAgent:
         Returns:
             str: The agent's response.
         """
-        prompt = f"{self.agent_id} ({self.role}): {message}"
-        response = self.session.chat(prompt)
+        # prompt = f"{self.agent_id} ({self.role}): {message}"
+        response = self.session.chat(message)
 
         return response

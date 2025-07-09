@@ -19,7 +19,11 @@ def get_chat_client(
     Returns:
         Chat client instance for the specified provider and model.
     """
-    PROVIDER_KEYS = {"xai": "XAI_API_KEY", "google": "GEMINI_API_KEY", "openai": "OPENAI_API_KEY"}
+    PROVIDER_KEYS = {
+        "xai": "XAI_API_KEY",
+        "google": "GEMINI_API_KEY",
+        "openai": "OPENAI_API_KEY",
+    }
 
     provider = provider.strip().lower()
     api_key = os.getenv(PROVIDER_KEYS.get(provider, ""), None)

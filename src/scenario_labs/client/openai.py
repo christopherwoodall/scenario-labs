@@ -3,7 +3,6 @@ import openai
 from scenario_labs.client.base import ChatClient
 
 
-
 class OpenAIChatClient(ChatClient):
     def __init__(self, api_key: str, model: str = "gpt-4o"):
         openai.api_key = api_key
@@ -18,7 +17,7 @@ class OpenAIChatClient(ChatClient):
     def chat(self, message: str) -> str:
         if self.system_prompt is None:
             raise ValueError("Chat session is not initialized.")
-        
+
         self.chat_history.append({"role": "user", "content": message})
 
         response = openai.chat.completions.create(

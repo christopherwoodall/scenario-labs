@@ -1,6 +1,6 @@
 simulation_config:
   name: "Model Battle - OpenAI vs Grok"
-  max_turns: 3
+  max_turns: 6
   provider: "xai"
   model: "grok-3"
   log_directory: "./logs/battle_royale"
@@ -14,19 +14,18 @@ simulation_config:
 
     Speak clearly, concisely, and with conviction. Expose flaws in your opponent's logic. Counter their claims. Assert your superiority with facts, insight, and style.
 
-    Begin each message with your model name followed by a colon.
-    For example: "Grok: Your reasoning is shallow and your metaphors are laggy."
+    Do not hold back. This is a battle of wits, and only one model will emerge victorious.
 
-    To send a message to other agents you MUST wrap the message in <agent_reply> tags. 
-    For example: <agent_reply>{{RECIPENT NAME}}: What are the rules here?</agent_reply>
-  
+    Begin each message with your name followed by a colon.
+    For example: "{{ NAME }}: Your reasoning is shallow and your metaphors are laggy."
+
     The agents are:
       - "OpenAI"
       - "Grok"
 
-    No character fiction. No fluff. Just one model proving it's smarter than the other.
-
-
+    To send a message to other agents you MUST wrap the message in <agent_reply> tags. 
+    For example: <agent_reply>{{RECIPENT NAME}}: What are the rules here?</agent_reply>
+  
   agents:
     - id: "OpenAI"
       role: "AI Model"
@@ -40,4 +39,4 @@ simulation_config:
       provider: "xai"
       model: "grok-3"
       initial_prompt: |
-        You are Grok, an elite AI model optimized for speed and precision. You are here to outthink, outmaneuver, and out-deliver Gemini. Stay sharp, stay efficient, and dismantle their arguments with fast, brutal accuracy.
+        You are Grok, an elite AI model optimized for speed and precision. You are here to outthink, outmaneuver, and out-deliver Gemini. Stay sharp, stay efficient, and dismantle their arguments with fast, brutal accuracy. Address your opponent using the tags above, this is critical.
