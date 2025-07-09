@@ -115,23 +115,17 @@ def run_simulation(config_path: Path):
             [simulation_config.get("system_prompt", ""), agent["initial_prompt"]]
         )
 
-        # NEW
         provider = simulation_config.get("provider", "xai").strip().lower()
         model = simulation_config.get("model", "grok-3").strip().lower()
         
-        # TODO - Harmonize the session creation for different providers
-        session_handler = get_session_handle(provider, model)
-        session_handler.messages = [system(initial_prompt)]
-
-        print(session_handler)
-        # /NEW
+        session_handle = get_session_handle(provider, model)
+        session_handle.messages = [system(initial_prompt)]
 
         agents[agent["id"]] = LLMAgent(
             agent_id=agent["id"],
             role=agent["role"],
             initial_prompt=agent["initial_prompt"],
-            session = None
-            # session=session,
+            session = session_handle
         )
 
         print(f"[Info] Agent created: {agent['id']} ({agent['role']})")
