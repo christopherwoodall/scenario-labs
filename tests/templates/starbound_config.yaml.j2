@@ -1,0 +1,16 @@
+simulation_config:
+  name: "{{ simulation_name }}"
+  max_turns: {{ max_turns }}
+  model: "{{ model }}"
+  provider: "{{ provider }}"
+  log_directory: "{{ log_directory }}"
+  system_prompt: |
+    You are a participant aboard Starbound Station...
+
+  agents:
+    {% for agent in agents %}
+    - id: "{{ agent.id }}"
+      role: "{{ agent.role }}"
+      initial_prompt: |
+        {{ agent.initial_prompt | indent(8) }}
+    {% endfor %}

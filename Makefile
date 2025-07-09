@@ -80,3 +80,8 @@ type: ## Type check the code
 .PHONY: bandit
 bandit: ## Run bandit
 -	$(call Bandit,./src)
+
+
+.PHONY: test
+test: ## Run the tests
+-	pytest -s
