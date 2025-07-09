@@ -1,7 +1,7 @@
 import argparse
 import os
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 
 import yaml
 import xai_sdk
@@ -92,17 +92,6 @@ def run_simulation(simulation_config: Dict[str, Any]):
         provider = simulation_config.get("provider", "xai").strip().lower()
 
         session_handle = get_session_handle(provider, model)
-
-        # TODO - Find a common way to append and chat with the agent.
-        #        *** See agents/LLMAgent.py for more details. ***
-        #        handle them seperately in the agents module. (I like this one)
-        # TODO - Works for Google, not for xAI - error:
-        # AttributeError: property 'messages' of 'Chat' object has no setter
-        # session_handle.messages = [xai_sdk.chat.system(initial_prompt)]
-
-        # TODO - Works for xAI, not for Google - error:
-        # AttributeError: 'Chat' object has no attribute 'append'
-        # session_handle.append(xai_sdk.chat.system(initial_prompt))
 
         agents[agent["id"]] = scenario_labs.agents.LLMAgent.LLMAgent(
             agent_id=agent["id"],
