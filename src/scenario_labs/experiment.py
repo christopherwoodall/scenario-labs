@@ -1,12 +1,9 @@
 import argparse
-import os
 from pathlib import Path
 from typing import Any, Dict
 
 import yaml
-import xai_sdk
 
-from google import genai
 
 import scenario_labs
 

@@ -7,12 +7,13 @@ class ChatClient(ABC):
     client: str
     history: List[Dict[str, str]] = []
 
-
     @abstractmethod
     def chat(
-        self,
-        messages: List[Dict[str, str]],
-        temperature: float = 0.7,
-        **kwargs
-    ) -> Dict[str, Any]:
-        ...
+        self, messages: List[Dict[str, str]], temperature: float = 0.7, **kwargs
+    ) -> Dict[str, Any]: ...
+
+
+# TODO - How widely used is the OpenAI standard?
+#        https://ai.google.dev/gemini-api/docs/openai
+#      - Google chat API
+#        https://github.com/googleapis/python-genai?tab=readme-ov-file#send-message-synchronous-non-streaming
