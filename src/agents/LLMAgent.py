@@ -6,7 +6,7 @@ class LLMAgent:
         self.agent_id = agent_id
         self.role = role
         self.initial_prompt = initial_prompt
-        # self.session = session
+        self.session = session
         self.chat_history = [{"role": "system", "content": initial_prompt}]
 
         # Initialize the session with the system prompt
