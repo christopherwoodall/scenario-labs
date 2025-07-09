@@ -11,3 +11,4 @@ from . import agents
 from .agents import LLMAgent
 
 from . import simulations
+from .simulations import conversation

@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from typing import List, Dict, Any
 
 
 class ChatClient(ABC):
@@ -18,7 +17,6 @@ class ChatClient(ABC):
             str: The response from the chat model.
         """
         pass
-
 
     @abstractmethod
     def initialize(self, system_prompt: str):

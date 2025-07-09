@@ -1,5 +1,4 @@
-from http import client
-from typing import Any, Dict, List
+from typing import Any, Dict
 
 import xai_sdk
 
@@ -12,14 +11,12 @@ class xAIChatClient(ChatClient):
         self.session = None
         self.model = model
 
-
     def initialize(self, system_prompt: str):
         self.session = self.client.chat.create(
             model=self.model,
-            messages=[xai_sdk.chat.system(system_prompt)]
+            messages=[xai_sdk.chat.system(system_prompt)],
             # [{"role": "system", "content": initial_prompt}]  <=== ??
         )
-
 
     def chat(self, message: str) -> Dict[str, Any]:
         # xai_sdk expects a list of strings or some structured payload

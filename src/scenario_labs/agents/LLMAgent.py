@@ -10,13 +10,10 @@ class LLMAgent:
 
         self.chat_history = []
 
-        self.model.initialize("\n".join(
-            [system_prompt, initial_prompt]
-        ))
+        self.session.initialize("\n".join([system_prompt, initial_prompt]))
 
-        self.respond("Remember these numbers 2345")
-        self.respond("What numbers did I tell you to remember?")
-
+        # self.respond("Remember these numbers 2345")
+        # self.respond("What numbers did I tell you to remember?")
 
     def to_log(self):
         return {
@@ -26,7 +23,6 @@ class LLMAgent:
             "initial_prompt": self.initial_prompt,
             "chat_history": self.chat_history,
         }
-
 
     def respond(self, message: str) -> str:
         """

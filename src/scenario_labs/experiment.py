@@ -48,14 +48,10 @@ def run_simulation(simulation_config: Dict[str, Any]):
             "[Error] No valid agents found in the configuration. Please check the 'agents' section."
         )
 
-    # TODO - Remove, bypass for linting errors.
-    print(agents)
-    print(simulation_name)
-    print(max_turns)
-    print(log_directory)
-
-    # simulation = scenario_labs.simulations.conversation.ConversationSimulation(simulation_name, agents, max_turns=max_turns)
-    # return simulation.run()
+    simulation = scenario_labs.simulations.conversation.ConversationSimulation(
+        simulation_name, agents, log_directory=log_directory, max_turns=max_turns
+    )
+    return simulation.run()
 
 
 def main():

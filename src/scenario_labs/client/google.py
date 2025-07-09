@@ -12,16 +12,12 @@ class GoogleGenAIClient(ChatClient):
 
         self.session = None
         self.model = model
-        
 
     def initialize(self, system_prompt: str):
         self.session = self.client.chats.create(
             model=self.model,
-            config=GenerateContentConfig(
-                system_instruction=[system_prompt]
-            )
+            config=GenerateContentConfig(system_instruction=[system_prompt]),
         )
-
 
     def chat(self, message: str) -> Dict[str, Any]:
         response = self.session.send_message(message)
