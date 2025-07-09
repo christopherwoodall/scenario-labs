@@ -9,8 +9,9 @@ from xai_sdk.chat import system
 
 from google import genai
 
-from agents.LLMAgent import LLMAgent
-from simulations.conversation import ConversationSimulation
+import scenario_labs
+from scenario_labs.agents.LLMAgent import LLMAgent
+from scenario_labs.simulations.conversation import ConversationSimulation
 
 
 GLOBAL_PROVIDER_KEYS = {"xai": "XAI_API_KEY", "google": "GEMINI_API_KEY"}
@@ -34,7 +35,7 @@ def read_config(file_path: Path) -> Optional[Dict[str, Any]]:
         return yaml.safe_load(file)
 
 
-def get_api_handle(provider: str, model: str):
+def get_api_handle(provider: str) -> Any:
     """
     Returns the API key environment variable name based on the provider.
 
@@ -64,7 +65,7 @@ def get_api_handle(provider: str, model: str):
     return client
 
 
-def get_session_handle(provider: str, model: str):
+def get_session_handle(provider: str, model: str) -> Any:
     """
     Returns the session handle based on the provider and model.
 
@@ -75,21 +76,13 @@ def get_session_handle(provider: str, model: str):
     Returns:
         Session handle for the specified provider and model.
     """
-    api_handler = get_api_handle(provider, model)
+    api_handler = get_api_handle(provider)
     
-    # TODO - Harmonize the session creation for different providers
-    #      - Chat works different for xai and google, need to handle both
-    #        https://github.com/googleapis/python-genai?tab=readme-ov-file#system-instructions-and-other-configs
-    #      - Can we use the OpenAI standard for both?
+    # TODO - How widely used is the OpenAI standard?
     #        https://ai.google.dev/gemini-api/docs/openai
-    if provider == "xai":
-        return api_handler.chat.create(
-            model=model
-        )
-    elif provider == "google":
-        # TODO - API
-        #        https://github.com/googleapis/python-genai?tab=readme-ov-file#send-message-synchronous-non-streaming
-        return api_handler.chats.create(model='gemini-2.0-flash-001')
+    #      - Google chat API
+    #        https://github.com/googleapis/python-genai?tab=readme-ov-file#send-message-synchronous-non-streaming
+    return api_handler.chats.create(model=model)
 
 
 def run_simulation(config_path: Path):
