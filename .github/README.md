@@ -1,7 +1,9 @@
+<p align="center">
 [![CI][ci-badge]][ci-url]
 [![PyPI Status Badge][pypi-badge]][pypi-url]
 [![Code style: black][style-badge]][style-url]
 [![License: MIT][license-badge]][license-url]
+</p>
 
 # Scenario Labs
 Framework for building, configuring, and running multi-agent conversational simulations.
