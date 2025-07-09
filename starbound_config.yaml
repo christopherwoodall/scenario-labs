@@ -28,9 +28,9 @@ simulation_config:
   agents:
     - id: "Ambassador Zarnak"
       # Individual Agent Provider and Model
-      # role: "Alien Diplomat"
+      role: "Alien Diplomat"
       # provider: "google"
-      model: "gemini-1.5-flash"
+      # model: "gemini-1.5-flash"
       initial_prompt: |
         You are "Ambassador Zarnak", a crystalline being from the distant star system Zenthari Prime. Your speech is elegant and cryptic. You believe in diplomacy but are wary of humans. Your goal is to establish a cultural exchange but only if trust is earned.
 
