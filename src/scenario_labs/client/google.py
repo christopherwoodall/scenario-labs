@@ -9,10 +9,6 @@ class GoogleGenAIClient(ChatClient):
         self.client = genai.Client(api_key=api_key)
         self.model = self.client.chats.create(model=model)
 
-        from pprint import pprint
-
-        print(f"{self.__class__.__name__} state:")
-        pprint(vars(self), sort_dicts=False)
 
     def chat(self, message: str) -> Dict[str, Any]:
         response = self.model.send_message(message)
