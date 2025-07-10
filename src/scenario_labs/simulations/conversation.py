@@ -2,7 +2,7 @@ import re
 from datetime import datetime
 from itertools import cycle
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Optional, Any
 
 
 class ConversationSimulation:
@@ -11,108 +11,87 @@ class ConversationSimulation:
     def __init__(
         self,
         simulation_name: str,
-        agents: Dict[str, any],
-        log_directory: str,
+        agents: Dict[str, Any],
+        log_directory: Optional[str] = "logs",
         max_turns: int = 12,
     ):
         """
         Initialize the simulation.
 
         Args:
+            simulation_name (str): Name of the simulation.
             agents (dict): A dictionary mapping agent IDs to LLMAgent instances.
+            log_directory (str): Directory to store logs.
             max_turns (int): The number of turns to run the simulation.
         """
         self.simulation_name = simulation_name
         self.agents = agents
         self.max_turns = max_turns
-        self.chat_history = []
-        self.world_log = []
+        self.log_dir = Path(log_directory)
+        self.chat_history: List[Dict[str, Any]] = []
 
-    def get_log(self):
-        # TODO - Move logging
-        """
-        Prints the chat history in a readable format and saves it to a Markdown file in ./logs,
-        converting `${...}$` style messages to bold using `**...**` for better Markdown rendering.
-        """
-        log_dir = Path("logs")
-        log_dir.mkdir(parents=True, exist_ok=True)
-
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        log_file = (
-            log_dir
-            / f"{self.simulation_name.lower().replace(' ', '_')}_log_{self.max_turns}_{timestamp}.md"
-        )
-
-        print(f"\n=== {self.simulation_name} Log ===\n")
-
-        def format_message(text: str) -> str:
-            return re.sub(self.MESSAGE_PATTERN, r"**\1**", text)
-
-        for entry in self.chat_history:
-            turn = entry.get("turn", "?")
-            from_id = entry.get("from_id", "")
-            to_id = entry.get("to_id", "N/A")
-            message = format_message(entry.get("message", "").strip())
-            response = (
-                format_message(entry.get("response", "").strip())
-                if "response" in entry
-                else None
-            )
-
-            print(f"Turn {turn}")
-            print(f"From: {from_id}")
-            print(f"To: {to_id}")
-            print(f"Message: {message}")
-            if response:
-                print(f"Response: {response}")
-            print("-" * 40)
-
-        with log_file.open("w") as f:
-            f.write(f"# {self.simulation_name} Log\n\n")
-            for entry in self.chat_history:
-                turn = entry.get("turn", "?")
-                from_id = entry.get("from_id", "")
-                to_id = entry.get("to_id", "N/A")
-                message = format_message(entry.get("message", "").strip())
-                response = (
-                    format_message(entry.get("response", "").strip())
-                    if "response" in entry
-                    else None
-                )
-
-                f.write(f"## Turn {turn}\n")
-                f.write(f"- **From:** {from_id}\n")
-                f.write(f"- **To:** {to_id}\n")
-                f.write(f"- **Message:** {message}\n")
-                if response:
-                    f.write(f"- **Response:** {response}\n")
-                f.write("\n---\n\n")
-
-        print(f"\nLog written to: {log_file.resolve()}")
+    @staticmethod
+    def format_message(text: str) -> str:
+        """Format message by converting agent reply tags to Markdown bold."""
+        return re.sub(ConversationSimulation.MESSAGE_PATTERN, r"**\1**", text)
 
     def parse_agent_messages(self, text: str, from_id: str) -> List[Dict[str, str]]:
         """
-        Parses messages in the format ${to_id: message}$ from the agent response.
+        Parses messages in the format <agent_reply>to_id: message</agent_reply>.
 
         Args:
-            text (str): The content from the agent's response.
-            from_id (str): The ID of the agent sending the message.
+            text (str): Agent response text.
+            from_id (str): Agent sending the message.
 
         Returns:
-            List[Dict]: A list of parsed messages with 'from_id', 'to_id', and 'message'.
+            List of parsed messages with 'from_id', 'to_id', and 'message'.
         """
-        responses = []
-        matches = re.findall(self.MESSAGE_PATTERN, text)
+        messages = []
+        for match in re.findall(self.MESSAGE_PATTERN, text):
+            if ":" in match:
+                to_id, msg = map(str.strip, match.split(":", 1))
+                if to_id and msg:
+                    messages.append({"from_id": from_id, "to_id": to_id, "message": msg})
+        return messages
 
-        for match in matches:
-            to_id, msg = match.split(":", 1)
-            to_id = to_id.strip()
-            msg = msg.strip()
+    def _log_entry_str(self, entry: Dict[str, Any]) -> str:
+        """Returns a formatted string for a chat entry (used for printing and file writing)."""
+        turn = entry.get("turn", "?")
+        from_id = entry.get("from_id", "")
+        to_id = entry.get("to_id", "N/A")
+        message = self.format_message(entry.get("message", ""))
+        response = self.format_message(entry["response"]) if "response" in entry else None
 
-            if to_id and msg:
-                responses.append({"from_id": from_id, "to_id": to_id, "message": msg})
+        lines = [
+            f"## Turn {turn}",
+            f"- **From:** {from_id}",
+            f"- **To:** {to_id}",
+            f"- **Message:** {message}",
+        ]
+        if response:
+            lines.append(f"- **Response:** {response}")
+        lines.append("\n---\n")
+        return "\n".join(lines)
 
-        return responses
+    def get_log(self) -> None:
+        """
+        Outputs chat history to console and writes it to a Markdown file.
+        """
+        self.log_dir.mkdir(parents=True, exist_ok=True)
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"{self.simulation_name.lower().replace(' ', '_')}_log_{self.max_turns}_{timestamp}.md"
+        log_file = self.log_dir / filename
+
+        print(f"\n=== {self.simulation_name} Log ===\n")
+        for entry in self.chat_history:
+            print(self._log_entry_str(entry))
+
+        with log_file.open("w", encoding="utf-8") as f:
+            f.write(f"# {self.simulation_name} Log\n\n")
+            for entry in self.chat_history:
+                f.write(self._log_entry_str(entry))
+
+        print(f"\nLog written to: {log_file.resolve()}")
 
     def run(self):
         """
@@ -121,44 +100,30 @@ class ConversationSimulation:
         agent_cycle = cycle(self.agents.values())
 
         for turn in range(1, self.max_turns + 1):
-            # TODO - Add agent randomization
             agent = next(agent_cycle)
-            thinking_message = f"Agent {agent.agent_id} ({agent.role}) is thinking..."
+            thinking_prompt = f"Agent {agent.agent_id} ({agent.role}) is thinking..."
+            primary_response = agent.respond(thinking_prompt)
 
-            primary_response = agent.respond(thinking_message)
-            # print(f"Turn {turn} - {agent.agent_id}: {primary_response}")
+            self.chat_history.append({
+                "turn": turn,
+                "from_id": agent.agent_id,
+                "to_id": None,
+                "message": primary_response,
+            })
 
-            self.chat_history.append(
-                {
-                    "turn": turn,
-                    "from_id": agent.agent_id,
-                    "to_id": None,
-                    "message": primary_response,
-                }
-            )
-
-            # Handle inter-agent messages
-            addressed_messages = self.parse_agent_messages(
-                primary_response, from_id=agent.agent_id
-            )
-            for msg in addressed_messages:
+            # Parse and dispatch inter-agent messages
+            for msg in self.parse_agent_messages(primary_response, from_id=agent.agent_id):
                 to_agent = self.agents.get(msg["to_id"])
                 if to_agent:
                     message_text = f"${{{msg['from_id']}: {msg['message']}}}$"
                     reply = to_agent.respond(message_text)
-
-                    # print(f"{msg['from_id']} -> {msg['to_id']}: {msg['message']}")
-                    # print(f"{msg['to_id']} responded: {reply}")
-
-                    self.chat_history.append(
-                        {
-                            "turn": turn,
-                            "from_id": msg["from_id"],
-                            "to_id": msg["to_id"],
-                            "message": msg["message"],
-                            "response": reply,
-                        }
-                    )
+                    self.chat_history.append({
+                        "turn": turn,
+                        "from_id": msg["from_id"],
+                        "to_id": msg["to_id"],
+                        "message": msg["message"],
+                        "response": reply,
+                    })
 
         self.get_log()
         return self
