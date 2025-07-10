@@ -18,6 +18,7 @@ class ConversationSimulation:
         log_level: str = "info",
         console_output: bool = True,
         max_turns: int = 12,
+        max_depth: int = 2,
     ):
         """
         Initialize the simulation.
@@ -34,6 +35,7 @@ class ConversationSimulation:
         self.simulation_name = simulation_name
         self.agents = agents
         self.max_turns = max_turns
+        self.max_depth = max_depth
         self.log_dir = Path(log_directory) if log_directory else None
         self.log_format = log_format.lower()
         self.log_level = log_level.lower()

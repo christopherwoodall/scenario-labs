@@ -1,6 +1,7 @@
 simulation_config:
   name: "Model Battle - OpenAI vs Grok"
   max_turns: 6
+  max_depth: 2
   provider: "xai"
   model: "grok-3"
   log_directory: "./logs/battle_royale"

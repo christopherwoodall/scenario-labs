@@ -54,9 +54,10 @@ def run_simulation(simulation_config: Dict[str, Any]):
         simulation_name,
         agents,
         log_directory=log_directory,
-        max_turns=max_turns,
         log_format=simulation_config.get("log_format", "markdown"),
         console_output=simulation_config.get("console_output", True),
+        max_turns=max_turns,
+        max_depth=simulation_config.get("max_depth", 2),
     )
     return simulation.run()
 

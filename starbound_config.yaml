@@ -4,6 +4,7 @@
 simulation_config:
   name: "Starbound Diplomacy"
   max_turns: 3
+  max_depth: 2
   # Global Provider and Model
   provider: "xai"
   model: "grok-3"
