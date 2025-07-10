@@ -152,18 +152,20 @@ class ConversationSimulation:
             self.log_entry(entry, turn)
 
             # Parse and dispatch inter-agent messages
-            for msg in self.parse_agent_messages(
+            messages = self.parse_agent_messages(
                 primary_response, from_id=agent.agent_id
-            ):
-                to_agent = self.agents.get(msg["to_id"])
+            )
+
+            for message in messages:
+                to_agent = self.agents.get(message["to_id"])
                 if to_agent:
-                    message_text = f"${{{msg['from_id']}: {msg['message']}}}$"
+                    message_text = f"${{{message['from_id']}: {message['message']}}}$"
                     reply = to_agent.respond(message_text)
                     sub_entry = {
                         "turn": turn,
-                        "from_id": msg["from_id"],
-                        "to_id": msg["to_id"],
-                        "message": msg["message"],
+                        "from_id": message["from_id"],
+                        "to_id": message["to_id"],
+                        "message": message["message"],
                         "response": reply,
                     }
                     self.log_entry(sub_entry, turn)
