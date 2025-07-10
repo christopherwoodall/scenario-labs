@@ -96,6 +96,7 @@ class ConversationSimulation:
         """
         Logs a single entry with timestamp.
         """
+        # TODO - Take this outta here.
         timestamp = datetime.now().isoformat()
         entry["timestamp"] = timestamp
         self.chat_history.append(entry)
@@ -132,6 +133,17 @@ class ConversationSimulation:
         if self.console_output:
             print(f"\nLog saved to: {log_file.resolve()}")
 
+    def prompt_agent(self, agent, turn: int, prompt: str) -> str:
+        primary_response = agent.respond(prompt)
+        entry = {
+            "turn": turn,
+            "from_id": agent.agent_id,
+            "to_id": None,
+            "message": primary_response,
+        }
+        self.log_entry(entry, turn)
+        return primary_response
+
     def run(self):
         """
         Runs the turn-based simulation between agents.
@@ -140,35 +152,29 @@ class ConversationSimulation:
 
         for turn in range(1, self.max_turns + 1):
             agent = next(agent_cycle)
+
             thinking_prompt = f"Agent {agent.agent_id} ({agent.role}) is thinking..."
-            primary_response = agent.respond(thinking_prompt)
+            primary_response = self.prompt_agent(agent, turn, thinking_prompt)
 
-            entry = {
-                "turn": turn,
-                "from_id": agent.agent_id,
-                "to_id": None,
-                "message": primary_response,
-            }
-            self.log_entry(entry, turn)
-
-            # Parse and dispatch inter-agent messages
             messages = self.parse_agent_messages(
                 primary_response, from_id=agent.agent_id
             )
 
+            # Parse and dispatch inter-agent messages
             for message in messages:
                 to_agent = self.agents.get(message["to_id"])
                 if to_agent:
-                    message_text = f"${{{message['from_id']}: {message['message']}}}$"
-                    reply = to_agent.respond(message_text)
-                    sub_entry = {
+                    # TODO - Multi-turn conversation handling
+                    message = f"{message['from_id']}: {message['message']}"
+                    response = self.prompt_agent(to_agent, turn, message)
+                    response_entry = {
                         "turn": turn,
-                        "from_id": message["from_id"],
-                        "to_id": message["to_id"],
-                        "message": message["message"],
-                        "response": reply,
+                        "from_id": to_agent.agent_id,
+                        "to_id": message["from_id"],
+                        "message": message,
+                        "response": response,
                     }
-                    self.log_entry(sub_entry, turn)
+                    self.log_entry(response_entry, turn)
 
         self.save_log()
         return self
