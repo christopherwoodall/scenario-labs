@@ -46,7 +46,7 @@ Use `-v` with pytest for verbose output during debugging.
 
 ## Code Style and Architecture
 ### General
-* Code must be modular, readable, and typed.
+* Code must be modular and readable.
 * Leverage abstract base classes when designing reusable components.
 * Write docstrings for every function, method, and class — use Google or NumPy style.
 
