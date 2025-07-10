@@ -51,7 +51,7 @@ The simulation's behavior, including the participating agents and the Large Lang
 To run a simulation with a custom configuration, use the following command:
 
 ```bash
-scenario-labs --config configs/prison_config.yaml
+scenario-labs --config configs/starbound_config.yaml
 ```
 
 
