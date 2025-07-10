@@ -1,5 +1,5 @@
 # Showcases the use of different AI providers and models for individual agents.
-# TODO - Individual agent overrides for provider and model.
+# TODO - Better configuration documentation and examples.
 
 simulation_config:
   name: "Starbound Diplomacy"
