@@ -17,7 +17,7 @@ def render_config(context):
 
 @pytest.mark.parametrize("provider,model", [
     ("xai", "grok-3"),
-    ("google", "gemini-1.5-flash"),
+    ("openai", "gpt-4o"),
 ])
 def test_run_simulation_does_not_crash(provider, model):
     print(f"\n[RUNNING TEST] provider={provider}, model={model}")

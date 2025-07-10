@@ -1,5 +1,3 @@
-from typing import Any, Dict
-
 import xai_sdk
 
 from scenario_labs.client.base import ChatClient
@@ -12,17 +10,30 @@ class xAIChatClient(ChatClient):
         self.model = model
 
     def initialize(self, system_prompt: str):
+        """
+        Initializes the chat model with a system prompt.
+
+        Args:
+            system_prompt (str): The system prompt to initialize the chat model with.
+        """
         self.session = self.client.chat.create(
             model=self.model,
             messages=[xai_sdk.chat.system(system_prompt)],
-            # [{"role": "system", "content": initial_prompt}]  <=== ??
         )
 
-    def chat(self, message: str) -> Dict[str, Any]:
+    def chat(self, message: str) -> str:
+        """
+        Sends a message to the chat model and returns the response.
+
+        Args:
+            message (str): The message to send to the chat model.
+
+        Returns:
+            str: The response from the chat model.
+        """
         if self.session is None:
             raise ValueError("Chat session is not initialized.")
 
-        # xai_sdk expects a list of strings or some structured payload
         self.session.append(xai_sdk.chat.user(message))
         response = self.session.sample()
         self.session.append(response)
