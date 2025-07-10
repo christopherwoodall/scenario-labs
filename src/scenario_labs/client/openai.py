@@ -12,9 +12,7 @@ class OpenAIChatClient(ChatClient):
 
     def initialize(self, system_prompt: str):
         self.session = openai.OpenAI()
-        self.chat_history = [
-            {"role": "system", "content": system_prompt}
-        ]
+        self.chat_history = [{"role": "system", "content": system_prompt}]
 
     def chat(self, message: str) -> str:
         if self.session is None:
