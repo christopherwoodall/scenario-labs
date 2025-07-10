@@ -7,7 +7,7 @@ scenario-labs = "scenario_labs.experiment:main"
 
 [project]
 requires-python = ">=3.10"
-version = "0.0.7"
+version = "0.0.8"
 name        = "scenario-labs"
 description = "Framework for building, configuring, and running multi-agent conversational simulations."
 readme      = ".github/README.md"
