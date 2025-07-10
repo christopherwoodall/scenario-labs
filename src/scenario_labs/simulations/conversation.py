@@ -29,6 +29,7 @@ class ConversationSimulation:
         self.world_log = []
 
     def get_log(self):
+        # TODO - Move logging
         """
         Prints the chat history in a readable format and saves it to a Markdown file in ./logs,
         converting `${...}$` style messages to bold using `**...**` for better Markdown rendering.
@@ -125,7 +126,7 @@ class ConversationSimulation:
             thinking_message = f"Agent {agent.agent_id} ({agent.role}) is thinking..."
 
             primary_response = agent.respond(thinking_message)
-            # print(f"Turn {turn} - {agent.agent_id}: {primary_response.content}")
+            # print(f"Turn {turn} - {agent.agent_id}: {primary_response}")
 
             self.chat_history.append(
                 {
@@ -147,7 +148,7 @@ class ConversationSimulation:
                     reply = to_agent.respond(message_text)
 
                     # print(f"{msg['from_id']} -> {msg['to_id']}: {msg['message']}")
-                    # print(f"{msg['to_id']} responded: {reply.content}")
+                    # print(f"{msg['to_id']} responded: {reply}")
 
                     self.chat_history.append(
                         {
