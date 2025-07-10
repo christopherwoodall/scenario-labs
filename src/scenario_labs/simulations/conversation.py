@@ -51,7 +51,9 @@ class ConversationSimulation:
             if ":" in match:
                 to_id, msg = map(str.strip, match.split(":", 1))
                 if to_id and msg:
-                    messages.append({"from_id": from_id, "to_id": to_id, "message": msg})
+                    messages.append(
+                        {"from_id": from_id, "to_id": to_id, "message": msg}
+                    )
         return messages
 
     def _log_entry_str(self, entry: Dict[str, Any]) -> str:
@@ -60,7 +62,9 @@ class ConversationSimulation:
         from_id = entry.get("from_id", "")
         to_id = entry.get("to_id", "N/A")
         message = self.format_message(entry.get("message", ""))
-        response = self.format_message(entry["response"]) if "response" in entry else None
+        response = (
+            self.format_message(entry["response"]) if "response" in entry else None
+        )
 
         lines = [
             f"## Turn {turn}",
@@ -104,26 +108,32 @@ class ConversationSimulation:
             thinking_prompt = f"Agent {agent.agent_id} ({agent.role}) is thinking..."
             primary_response = agent.respond(thinking_prompt)
 
-            self.chat_history.append({
-                "turn": turn,
-                "from_id": agent.agent_id,
-                "to_id": None,
-                "message": primary_response,
-            })
+            self.chat_history.append(
+                {
+                    "turn": turn,
+                    "from_id": agent.agent_id,
+                    "to_id": None,
+                    "message": primary_response,
+                }
+            )
 
             # Parse and dispatch inter-agent messages
-            for msg in self.parse_agent_messages(primary_response, from_id=agent.agent_id):
+            for msg in self.parse_agent_messages(
+                primary_response, from_id=agent.agent_id
+            ):
                 to_agent = self.agents.get(msg["to_id"])
                 if to_agent:
                     message_text = f"${{{msg['from_id']}: {msg['message']}}}$"
                     reply = to_agent.respond(message_text)
-                    self.chat_history.append({
-                        "turn": turn,
-                        "from_id": msg["from_id"],
-                        "to_id": msg["to_id"],
-                        "message": msg["message"],
-                        "response": reply,
-                    })
+                    self.chat_history.append(
+                        {
+                            "turn": turn,
+                            "from_id": msg["from_id"],
+                            "to_id": msg["to_id"],
+                            "message": msg["message"],
+                            "response": reply,
+                        }
+                    )
 
         self.get_log()
         return self
