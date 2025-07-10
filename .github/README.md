@@ -1,9 +1,8 @@
 <p align="center">
 
 [![CI][ci-badge]][ci-url]
+[![🕊️ Release Workflow][release-badge]][release-url]
 [![PyPI Status Badge][pypi-badge]][pypi-url]
-[![Code style: black][style-badge]][style-url]
-[![License: MIT][license-badge]][license-url]
 
 </p>
 
@@ -11,10 +10,8 @@
 [ci-url]: https://github.com/christopherwoodall/scenario-labs/actions/workflows/lint.yml
 [pypi-badge]: https://badge.fury.io/py/scenario-labs.svg
 [pypi-url]: https://pypi.org/project/scenario-labs/
-[license-badge]: https://img.shields.io/badge/License-MIT-yellow.svg
-[license-url]: https://opensource.org/licenses/MIT
-[style-badge]: https://img.shields.io/badge/code%20style-black-000000.svg
-[style-url]: https://github.com/ambv/black
+[release-badge]: https://github.com/christopherwoodall/scenario-labs/actions/workflows/release.yml/badge.svg
+[release-url]: https://github.com/christopherwoodall/scenario-labs/actions/workflows/release.yml
 
 
 # Scenario Labs
@@ -51,7 +48,7 @@ The simulation's behavior, including the participating agents and the Large Lang
 To run a simulation with a custom configuration, use the following command:
 
 ```bash
-scenario-labs --config configs/prison_config.yaml
+scenario-labs --config configs/starbound_config.yaml
 ```
 
 
