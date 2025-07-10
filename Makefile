@@ -27,16 +27,6 @@ default: $(.DEFAULT_GOAL)
 all: help
 
 
-define TypeCheck
-	python3 -m mypy src            \
-		--ignore-missing-imports   \
-		--follow-imports=skip      \
-		--show-error-codes         \
-		--show-column-numbers      \
-		--pretty
-endef
-
-
 define Bandit
 	bandit                 \
 		-v                   \
@@ -70,11 +60,6 @@ run: ## Run the application
 lint: ## Lint the code
 -	black $(SRC_DIR)
 -	ruff check $(SRC_DIR) --fix
-
-
-.PHONY: type
-type: ## Type check the code
--	$(call TypeCheck)
 
 
 .PHONY: bandit

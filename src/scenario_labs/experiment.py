@@ -4,7 +4,6 @@ from typing import Any, Dict
 
 import yaml
 
-
 import scenario_labs
 
 
@@ -52,7 +51,12 @@ def run_simulation(simulation_config: Dict[str, Any]):
         )
 
     simulation = scenario_labs.simulations.conversation.ConversationSimulation(
-        simulation_name, agents, log_directory=log_directory, max_turns=max_turns
+        simulation_name,
+        agents,
+        log_directory=log_directory,
+        max_turns=max_turns,
+        log_format=simulation_config.get("log_format", "markdown"),
+        console_output=simulation_config.get("console_output", True),
     )
     return simulation.run()
 

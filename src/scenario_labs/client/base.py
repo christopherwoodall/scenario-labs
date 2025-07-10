@@ -27,9 +27,3 @@ class ChatClient(ABC):
             system_prompt (str): The system prompt to initialize the chat model with.
         """
         pass
-
-
-# TODO - How widely used is the OpenAI standard?
-#        https://ai.google.dev/gemini-api/docs/openai
-#      - Google chat API
-#        https://github.com/googleapis/python-genai?tab=readme-ov-file#send-message-synchronous-non-streaming

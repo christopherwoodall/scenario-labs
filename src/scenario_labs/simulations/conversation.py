@@ -1,4 +1,5 @@
 import re
+import json
 from datetime import datetime
 from itertools import cycle
 from pathlib import Path
@@ -13,6 +14,9 @@ class ConversationSimulation:
         simulation_name: str,
         agents: Dict[str, Any],
         log_directory: Optional[str] = "logs",
+        log_format: str = "markdown",
+        log_level: str = "info",
+        console_output: bool = True,
         max_turns: int = 12,
     ):
         """
@@ -21,14 +25,20 @@ class ConversationSimulation:
         Args:
             simulation_name (str): Name of the simulation.
             agents (dict): A dictionary mapping agent IDs to LLMAgent instances.
-            log_directory (str): Directory to store logs.
+            log_directory (Optional[str]): Directory to store logs.
+            log_format (str): Format for logs ('markdown' or 'json').
+            log_level (str): Logging level ('debug', 'info', 'error').
+            console_output (bool): Whether to print logs to console.
             max_turns (int): The number of turns to run the simulation.
         """
         self.simulation_name = simulation_name
         self.agents = agents
         self.max_turns = max_turns
-        self.log_dir = Path(log_directory)
-        self.chat_history: List[Dict[str, Any]] = []
+        self.log_dir = Path(log_directory) if log_directory else None
+        self.log_format = log_format.lower()
+        self.log_level = log_level.lower()
+        self.console_output = console_output
+        self.chat_history = []
 
     @staticmethod
     def format_message(text: str) -> str:
@@ -57,17 +67,20 @@ class ConversationSimulation:
         return messages
 
     def _log_entry_str(self, entry: Dict[str, Any]) -> str:
-        """Returns a formatted string for a chat entry (used for printing and file writing)."""
+        """Returns a formatted Markdown string for a chat entry."""
         turn = entry.get("turn", "?")
+        timestamp = entry.get("timestamp", "")
         from_id = entry.get("from_id", "")
         to_id = entry.get("to_id", "N/A")
         message = self.format_message(entry.get("message", ""))
         response = (
-            self.format_message(entry["response"]) if "response" in entry else None
+            self.format_message(entry.get("response", ""))
+            if "response" in entry
+            else ""
         )
 
         lines = [
-            f"## Turn {turn}",
+            f"## Turn {turn} ({timestamp})",
             f"- **From:** {from_id}",
             f"- **To:** {to_id}",
             f"- **Message:** {message}",
@@ -77,25 +90,45 @@ class ConversationSimulation:
         lines.append("\n---\n")
         return "\n".join(lines)
 
-    def get_log(self) -> None:
+    def log_entry(self, entry: Dict[str, Any], turn: int) -> None:
         """
-        Outputs chat history to console and writes it to a Markdown file.
+        Logs a single entry with timestamp.
         """
+        timestamp = datetime.now().isoformat()
+        entry["timestamp"] = timestamp
+        self.chat_history.append(entry)
+
+        if self.console_output and self.log_level in ("debug", "info"):
+            print(self._format_log_entry(entry, turn))
+
+    def _format_log_entry(self, entry: Dict[str, Any], turn: int) -> str:
+        if self.log_format == "json":
+            return json.dumps(entry, indent=2)
+        else:  # markdown
+            return self._log_entry_str(entry)
+
+    def save_log(self) -> None:
+        if not self.log_dir:
+            return
         self.log_dir.mkdir(parents=True, exist_ok=True)
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        filename = f"{self.simulation_name.lower().replace(' ', '_')}_log_{self.max_turns}_{timestamp}.md"
+        ext = "md" if self.log_format == "markdown" else "json"
+        filename = f"{self.simulation_name.lower().replace(' ', '_')}_log_{self.max_turns}_{timestamp}.{ext}"
         log_file = self.log_dir / filename
 
-        print(f"\n=== {self.simulation_name} Log ===\n")
-        for entry in self.chat_history:
-            print(self._log_entry_str(entry))
+        content = ""
+        if self.log_format == "markdown":
+            content = f"# {self.simulation_name} Log\n\n"
+            for entry in self.chat_history:
+                content += self._log_entry_str(entry) + "\n"
+        else:
+            content = json.dumps(self.chat_history, indent=2)
 
         with log_file.open("w", encoding="utf-8") as f:
-            f.write(f"# {self.simulation_name} Log\n\n")
-            for entry in self.chat_history:
-                f.write(self._log_entry_str(entry))
+            f.write(content)
 
-        print(f"\nLog written to: {log_file.resolve()}")
+        if self.console_output:
+            print(f"\nLog saved to: {log_file.resolve()}")
 
     def run(self):
         """
@@ -108,14 +141,13 @@ class ConversationSimulation:
             thinking_prompt = f"Agent {agent.agent_id} ({agent.role}) is thinking..."
             primary_response = agent.respond(thinking_prompt)
 
-            self.chat_history.append(
-                {
-                    "turn": turn,
-                    "from_id": agent.agent_id,
-                    "to_id": None,
-                    "message": primary_response,
-                }
-            )
+            entry = {
+                "turn": turn,
+                "from_id": agent.agent_id,
+                "to_id": None,
+                "message": primary_response,
+            }
+            self.log_entry(entry, turn)
 
             # Parse and dispatch inter-agent messages
             for msg in self.parse_agent_messages(
@@ -125,15 +157,14 @@ class ConversationSimulation:
                 if to_agent:
                     message_text = f"${{{msg['from_id']}: {msg['message']}}}$"
                     reply = to_agent.respond(message_text)
-                    self.chat_history.append(
-                        {
-                            "turn": turn,
-                            "from_id": msg["from_id"],
-                            "to_id": msg["to_id"],
-                            "message": msg["message"],
-                            "response": reply,
-                        }
-                    )
+                    sub_entry = {
+                        "turn": turn,
+                        "from_id": msg["from_id"],
+                        "to_id": msg["to_id"],
+                        "message": msg["message"],
+                        "response": reply,
+                    }
+                    self.log_entry(sub_entry, turn)
 
-        self.get_log()
+        self.save_log()
         return self

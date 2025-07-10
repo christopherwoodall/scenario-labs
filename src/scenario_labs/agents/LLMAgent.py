@@ -29,7 +29,7 @@ class LLMAgent:
         Returns:
             str: The agent's response.
         """
-        # prompt = f"{self.agent_id} ({self.role}): {message}"
+        self.chat_history.append({"role": "user", "content": message})
         response = self.session.chat(message)
-
+        self.chat_history.append({"role": "assistant", "content": response})
         return response
