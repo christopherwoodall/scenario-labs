@@ -5,17 +5,14 @@ from typing import Any, Dict
 from pathlib import Path
 
 
-def run_simulation(simulation_config: Dict[str, Any]):
-    """
-    Runs the LLM-based Conversational Simulation using the provided configuration.
-
-    Args:
-        simulation_config (Dict[str, Any]): The configuration dictionary containing simulation parameters.
-    """
+def run_conversation_simulation(simulation_config: Dict[str, Any]):
     agents = {}
+
     simulation_name = simulation_config["name"]
+
     max_turns = simulation_config.get("max_turns", 3)
     max_depth = simulation_config.get("max_depth", 1)
+
     log_directory = simulation_config["log_directory"]
 
     model = simulation_config.get("model", "grok-3").strip().lower()
@@ -59,6 +56,42 @@ def run_simulation(simulation_config: Dict[str, Any]):
         max_depth=max_depth,
     )
     return simulation.run()
+
+
+def run_one_shot_simulation(simulation_config: Dict[str, Any]):
+    ...
+
+
+def run_simulation(simulation_config: Dict[str, Any]):
+    """
+    Runs the LLM-based Conversational Simulation using the provided configuration.
+
+    Args:
+        simulation_config (Dict[str, Any]): The configuration dictionary containing simulation parameters.
+    """
+    simulation_type = simulation_config.get("type", "conversation").strip().lower()
+
+    if simulation_type not in ["conversation", "one_shot", "interactive"]:
+        raise ValueError(
+            f"[Error] Invalid simulation type '{simulation_type}'. "
+            "Supported types are 'conversation', 'one_shot', and 'interactive'."
+        )
+    
+    if simulation_type == "conversation":
+        print("[Info] Running conversation simulation...")
+        return run_conversation_simulation(simulation_config)
+
+    elif simulation_type == "one_shot":
+        print("[Info] Running one-shot simulation...")
+        # Placeholder for one-shot simulation logic
+        exit()
+
+    elif simulation_type == "interactive":
+        print("[Info] Running interactive simulation...")
+        raise NotImplementedError(
+            "[Error] Interactive simulation is not yet implemented. "
+            "Please use 'conversation' or 'one_shot' for now."
+        )
 
 
 def main():
