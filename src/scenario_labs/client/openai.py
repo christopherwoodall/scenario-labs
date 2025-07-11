@@ -1,5 +1,4 @@
 import openai
-
 from scenario_labs.client.base import ChatClient
 
 

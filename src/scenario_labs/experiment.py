@@ -1,10 +1,8 @@
-import argparse
-from pathlib import Path
-from typing import Any, Dict
-
 import yaml
-
+import argparse
 import scenario_labs
+from typing import Any, Dict
+from pathlib import Path
 
 
 def run_simulation(simulation_config: Dict[str, Any]):
@@ -16,7 +14,8 @@ def run_simulation(simulation_config: Dict[str, Any]):
     """
     agents = {}
     simulation_name = simulation_config["name"]
-    max_turns = simulation_config["max_turns"]
+    max_turns = simulation_config.get("max_turns", 3)
+    max_depth = simulation_config.get("max_depth", 1)
     log_directory = simulation_config["log_directory"]
 
     model = simulation_config.get("model", "grok-3").strip().lower()
@@ -57,7 +56,7 @@ def run_simulation(simulation_config: Dict[str, Any]):
         log_format=simulation_config.get("log_format", "markdown"),
         console_output=simulation_config.get("console_output", True),
         max_turns=max_turns,
-        max_depth=simulation_config.get("max_depth", 2),
+        max_depth=max_depth,
     )
     return simulation.run()
 

@@ -1,16 +1,26 @@
 # Showcases the use of different AI providers and models for individual agents.
-# TODO - Better configuration documentation and examples.
 
 simulation_config:
+  # Name of the simulation, used for identification and potentially logging.
   name: "Starbound Diplomacy"
+
+  # Maximum number of turns (or rounds) the simulation will run.
   max_turns: 3
+
+  # Maximum depth for certain simulation processes, possibly related to conversation turns or decision trees.
   max_depth: 2
-  # Global Provider and Model
+
+  # Global Provider and Model: These settings define the default AI provider and model
+  # to be used for agents if no specific provider/model is defined at the agent level.
   provider: "xai"
   model: "grok-3"
-  # Logging configuration
+
+  # Logging configuration: Specifies where simulation logs will be stored.
   log_directory: "./logs/starbound_diplomacy"
 
+  # System prompt: This is the overarching instruction or context given to all agents
+  # at the beginning of the simulation. It sets the scene, defines their general roles,
+  # and outlines communication protocols.
   system_prompt: |
     You are a participant aboard Starbound Station, a neutral diplomatic space station orbiting a newly discovered exoplanet. 
     Your mission is to engage with other delegates, resolve tensions, build alliances, and represent your species or organization with dignity and creativity. 
@@ -28,12 +38,18 @@ simulation_config:
     To send a message to other agents you MUST wrap the message in <agent_reply> tags. 
     For example: <agent_reply>{{RECIPENT NAME}}: What are the rules here?</agent_reply>
   
+  # Agents configuration: This section defines each individual agent participating in the simulation.
   agents:
-    - id: "Ambassador Zarnak"
-      role: "Alien Diplomat"
-      # Individual Agent Provider and Model
+    - id: "Ambassador Zarnak" # Unique identifier for the agent.
+      role: "Alien Diplomat" # Descriptive role of the agent within the simulation.
+
+      # Individual Agent Provider and Model: These settings override the global provider and model
+      # for this specific agent.
       provider: "openai"
       model: "gpt-4o"
+
+      # Initial prompt for Ambassador Zarnak: This prompt provides specific instructions, personality traits,
+      # and goals for this particular agent, guiding its behavior and responses.
       initial_prompt: |
         You are "Ambassador Zarnak", a crystalline being from the distant star system Zenthari Prime. Your speech is elegant and cryptic. You believe in diplomacy but are wary of humans. Your goal is to establish a cultural exchange but only if trust is earned.
 

@@ -1,5 +1,4 @@
 import xai_sdk
-
 from scenario_labs.client.base import ChatClient
 
 
