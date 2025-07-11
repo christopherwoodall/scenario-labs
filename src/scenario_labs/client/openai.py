@@ -8,7 +8,7 @@ class OpenAIChatClient(ChatClient):
 
         self.model = model
         self.temperature = temperature
-        
+
         self.session = None
         self.messages = []
 
@@ -38,12 +38,12 @@ class OpenAIChatClient(ChatClient):
         self.messages.append({"role": "user", "content": message})
 
         response = self.session.chat.completions.create(
-            model=self.model,
-            messages=self.messages,
-            temperature=self.temperature
+            model=self.model, messages=self.messages, temperature=self.temperature
         )
 
-        self.messages.append({"role": "assistant", "content": response.choices[0].message.content})
+        self.messages.append(
+            {"role": "assistant", "content": response.choices[0].message.content}
+        )
 
         return response.choices[0].message.content
 

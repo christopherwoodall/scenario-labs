@@ -3,7 +3,9 @@ from scenario_labs.client.base import ChatClient
 
 
 class GoogleGenAIClient(ChatClient):
-    def __init__(self, api_key: str, model: str = "gemini-1.5-flash", temperature: float = 0.7):
+    def __init__(
+        self, api_key: str, model: str = "gemini-1.5-flash", temperature: float = 0.7
+    ):
         self.api_key = api_key
         self.base_url = "https://generativelanguage.googleapis.com/v1beta/openai/"
 
@@ -26,10 +28,7 @@ class GoogleGenAIClient(ChatClient):
         Args:
             system_prompt (str): The system prompt to initialize the chat model with.
         """
-        self.session = openai.OpenAI(
-            api_key=self.api_key,
-            base_url=self.base_url
-        )
+        self.session = openai.OpenAI(api_key=self.api_key, base_url=self.base_url)
 
         self.messages.append({"role": "system", "content": system_prompt})
 
@@ -49,12 +48,12 @@ class GoogleGenAIClient(ChatClient):
         self.messages.append({"role": "user", "content": message})
 
         response = self.session.chat.completions.create(
-            model=self.model,
-            messages=self.messages,
-            temperature=self.temperature
+            model=self.model, messages=self.messages, temperature=self.temperature
         )
 
-        self.messages.append({"role": "assistant", "content": response.choices[0].message.content})
+        self.messages.append(
+            {"role": "assistant", "content": response.choices[0].message.content}
+        )
 
         return response.choices[0].message.content
 

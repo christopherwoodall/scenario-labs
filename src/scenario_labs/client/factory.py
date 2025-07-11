@@ -29,7 +29,7 @@ def get_chat_client(
         "deepseek": "DEEPSEEK_API_KEY",
         "cerebras": "CEREBRAS_API_KEY",
         "groq": "GROQ_API_KEY",
-        "vercel": "VERCEL_API_KEY"
+        "vercel": "VERCEL_API_KEY",
     }
 
     provider = provider.strip().lower()
