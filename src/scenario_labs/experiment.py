@@ -58,8 +58,7 @@ def run_conversation_simulation(simulation_config: Dict[str, Any]):
     return simulation.run()
 
 
-def run_one_shot_simulation(simulation_config: Dict[str, Any]):
-    ...
+def run_one_shot_simulation(simulation_config: Dict[str, Any]): ...
 
 
 def run_simulation(simulation_config: Dict[str, Any]):
@@ -76,7 +75,7 @@ def run_simulation(simulation_config: Dict[str, Any]):
             f"[Error] Invalid simulation type '{simulation_type}'. "
             "Supported types are 'conversation', 'one_shot', and 'interactive'."
         )
-    
+
     if simulation_type == "conversation":
         print("[Info] Running conversation simulation...")
         return run_conversation_simulation(simulation_config)
