@@ -94,4 +94,3 @@ class ConversationSimulation:
 
         self.logger.save_log(self.chat_history, self.max_turns)
         return self
-    
