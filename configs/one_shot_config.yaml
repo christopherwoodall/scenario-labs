@@ -1,0 +1,72 @@
+# WORK IN PROGRESS
+
+simulation_config:
+  # Type of simulation: [ "one_shot" | "conversation" ] (default: conversation)
+  # Options:
+  #   "one_shot": indicates a single round of interaction without ongoing context.
+  #   "conversation": indicates a multi-turn interaction where context is
+  #                   maintained across turns.
+  #   "interactive": indicates a simulation where user input is required
+  #                  to progress the simulation, allowing for dynamic interactions.
+  type: "one_shot"
+
+  # Name of the simulation, used for identification and potentially logging.
+  name: "Starbound Diplomacy"
+
+  # Maximum number of turns (or rounds) the simulation will run.
+  max_turns: 3
+
+  # Maximum depth for certain simulation processes, possibly related to conversation turns or decision trees.
+  max_depth: 1
+
+  # Global Provider and Model: These settings define the default AI provider and model
+  # to be used for agents if no specific provider/model is defined at the agent level.
+  provider: "xai"
+  model: "grok-3"
+
+  # Logging configuration: Specifies where simulation logs will be stored.
+  log_directory: "./logs/one_shot_simulation"
+
+  system_prompt: |
+    TODO
+
+  agents:
+    - id: "OpenAI"
+      role: "AI Model"
+      provider: "openai"
+      model: "gpt-4o"
+      prompts:
+        - "What is the capital of France?"
+        # Expected Outputs (Future Enhancement)
+        # For automated testing against known correct answers.
+        # expected_outputs:
+        #   - prompt: "What is the capital of France?"
+        #     expected: "Paris"
+        #     tolerance: "exact" # or "semantic"
+        - "Explain the concept of quantum entanglement in simple terms."
+        - "Write a short, humorous limerick about a cat."
+        - "If a tree falls in a forest and no one is around to hear it, does it make a sound?"
+        - "Translate 'Hello, how are you?' into Spanish."
+        - "Describe the main plot points of the novel '1984'."
+        - "What is the square root of 144?"
+
+  # LLM Judge Configuration (Future Enhancement)
+  # This section will be uncommented and configured when the LLM judging
+  # capability is added.
+  # judge:
+  #   provider: "google"
+  #   model: "gemini-1.5-pro"
+  #   system_prompt: |
+  #     You are an impartial AI judge evaluating the quality, relevance, and accuracy of AI model responses.
+  #     Your task is to compare the given prompt with the model's response and provide a score and a brief explanation.
+  #     Score on a scale of 1 to 5, where 1 is very poor and 5 is excellent.
+  #   # Criteria for judging, could be more elaborate.
+  #   criteria:
+  #     - "Accuracy"
+  #     - "Coherence"
+  #     - "Relevance"
+  #     - "Conciseness"
+  #   # Output format for the judge's verdict.
+  #   output_format: |
+  #     Score: [1-5]
+  #     Reasoning: [Brief explanation]
