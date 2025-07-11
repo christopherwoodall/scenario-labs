@@ -59,7 +59,7 @@ To run a conversational simulation with a custom configuration, use the followin
 scenario-labs --config configs/starbound_config.yaml
 ```
 
-An example one-shot simulation configuration file is provided in `configs/one_shot_config.yaml`. You can run a one-shot simulation with the following command:
+An example one-shot simulation configuration is provided in `configs/one_shot_config.yaml`. You can run a one-shot simulation with the following command:
 
 ```bash
 scenario-labs --config configs/one_shot_config.yaml
