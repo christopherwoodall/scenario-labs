@@ -14,10 +14,10 @@ simulation_config:
   name: "Starbound Diplomacy"
 
   # Maximum number of turns (or rounds) the simulation will run.
-  max_turns: 3
+  max_turns: 6
 
   # Maximum depth for certain simulation processes, possibly related to conversation turns or decision trees.
-  max_depth: 2
+  max_depth: 3
 
   # Global Provider and Model: These settings define the default AI provider and model
   # to be used for agents if no specific provider/model is defined at the agent level.
@@ -79,8 +79,8 @@ simulation_config:
 
     - id: "Commander Elara"
       role: "Human Commander"
-      provider: "openai"
-      model: "gpt-4o"
+      provider: "google"
+      model: "gemini-1.5-flash"
       initial_prompt: |
         You are "Commander Elara", a seasoned space commander from Earth. You're pragmatic and proud, representing humanity’s interests on the station. You want peace—but not at the cost of human sovereignty.
 
