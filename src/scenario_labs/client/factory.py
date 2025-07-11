@@ -1,8 +1,7 @@
 import os
-
+from .xai import xAIChatClient
 from .google import GoogleGenAIClient
 from .openai import OpenAIChatClient
-from .xai import xAIChatClient
 
 
 def get_chat_client(
@@ -29,16 +28,16 @@ def get_chat_client(
     api_key = os.getenv(PROVIDER_KEYS.get(provider, ""), None)
 
     if provider not in PROVIDER_KEYS:
-        print(
-            f"[Error] Unsupported provider '{provider}'. Supported providers: {', '.join(PROVIDER_KEYS.keys())}."
+        supported = ", ".join(PROVIDER_KEYS.keys())
+        raise ValueError(
+            f"[Error] Unsupported provider '{provider}'. Supported providers: {supported}."
         )
-        raise ValueError(f"Unsupported provider: {provider}")
 
     if api_key is None:
-        print(
-            f"[Error] API key for provider '{provider}' is not set. Please set the environment variable '{PROVIDER_KEYS[provider]}'."
+        raise ValueError(
+            f"[Error] API key for provider '{provider}' is not set. "
+            f"Please set the environment variable '{PROVIDER_KEYS[provider]}'."
         )
-        raise ValueError(f"API key is not set for provider: {provider}")
 
     if provider == "google":
         return GoogleGenAIClient(api_key=api_key, model=model)

@@ -1,6 +1,5 @@
 from google import genai
 from google.genai.types import GenerateContentConfig
-
 from scenario_labs.client.base import ChatClient
 
 

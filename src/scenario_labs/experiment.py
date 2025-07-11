@@ -1,10 +1,8 @@
-import argparse
-from pathlib import Path
-from typing import Any, Dict
-
 import yaml
-
+import argparse
 import scenario_labs
+from typing import Any, Dict
+from pathlib import Path
 
 
 def run_simulation(simulation_config: Dict[str, Any]):
