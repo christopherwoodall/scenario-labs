@@ -31,6 +31,7 @@ class ConversationSimulation:
         )
 
     def parse_agent_messages(self, text: str, from_id: str) -> List[Dict[str, str]]:
+        # TODO - Add a <stop> tag to end the conversation early if needed
         messages = []
         for match in re.findall(ConversationLogger.MESSAGE_PATTERN, text):
             if ":" in match:
