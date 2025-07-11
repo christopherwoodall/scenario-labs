@@ -1,21 +1,40 @@
 # Sequence Diagram
 
 ```mermaid
-graph TD
-    A[Start: main in experiment.py] --> B{Parse YAML Config};
-    B --> C{run_simulation};
-    C --> D{For each agent in config};
-    D --> E{get_chat_client};
-    E --> F{Instantiate LLMAgent};
-    F --> D;
-    D -- All agents created --> G{Instantiate ConversationSimulation};
-    G --> H{Run Simulation};
-    H --> I{Cycle through agents};
-    I --> J{Agent responds};
-    J --> K{Parse response for messages};
-    K --> L{Recipient agent responds};
-    L --> K;
-    K -- No more messages --> I;
-    I -- Max turns reached --> M{Save Log};
-    M --> N[End];
+sequenceDiagram
+    participant Experiment as experiment.py
+    participant Config as YAML Config
+    participant SimulationRunner as run_simulation
+    participant AgentCreator as Agent Creation Loop
+    participant ChatClient as get_chat_client
+    participant LLMAgent as LLMAgent Instance
+    participant ConversationSim as ConversationSimulation
+    participant AgentInteraction as Agent Response Loop
+    participant ResponseParser as Parse Response
+    participant LogSaver as Save Log
+
+    Experiment->>Config: Parse YAML Config
+    Experiment->>SimulationRunner: Call run_simulation()
+    SimulationRunner->>AgentCreator: For each agent in config
+    AgentCreator->>ChatClient: Call get_chat_client()
+    ChatClient-->>AgentCreator: Returns chat client
+    AgentCreator->>LLMAgent: Instantiate LLMAgent
+    LLMAgent-->>AgentCreator: LLMAgent created
+    AgentCreator-->>SimulationRunner: All agents created
+    SimulationRunner->>ConversationSim: Instantiate ConversationSimulation
+    ConversationSim->>AgentInteraction: Run Simulation (start conversation)
+    loop Cycle through agents
+        AgentInteraction->>LLMAgent: Agent responds
+        LLMAgent-->>ResponseParser: Provides response
+        ResponseParser->>AgentInteraction: Parse response for messages
+        alt Messages found
+            AgentInteraction->>LLMAgent: Recipient agent responds
+            LLMAgent-->>ResponseParser: Provides response
+        else No more messages
+            ResponseParser-->>AgentInteraction: No messages to process
+        end
+    end
+    AgentInteraction-->>ConversationSim: Max turns reached
+    ConversationSim->>LogSaver: Save Log
+    LogSaver-->>Experiment: Simulation End
 ```
