@@ -25,7 +25,7 @@ This project aims to be developer-friendly, modular, and extensible, supporting 
 
 
 ## Examples
-You can find past chat logs in the [logs directory](https://github.com/christopherwoodall/scenario-labs/tree/main/logs).
+You can find past chat logs in the [simulations directory](https://github.com/christopherwoodall/scenario-labs/tree/main/simulations).
 
 ![](https://raw.githubusercontent.com/christopherwoodall/scenario-labs/refs/heads/main/.github/docs/agents-example.png)
 
@@ -56,13 +56,13 @@ Simulation behavior, including the participating agents and the LLMs they use, i
 To run a conversational simulation with a custom configuration, use the following command:
 
 ```bash
-scenario-labs --config configs/starbound_config.yaml
+scenario-labs --config simulations/starbound_config.yaml
 ```
 
-An example one-shot simulation configuration is provided in `configs/one_shot_config.yaml`. You can run a one-shot simulation with the following command:
+An example one-shot simulation configuration is provided in `simulations/one_shot_config.yaml`. You can run a one-shot simulation with the following command:
 
 ```bash
-scenario-labs --config configs/one_shot_config.yaml
+scenario-labs --config simulations/one_shot_config.yaml
 ```
 
 

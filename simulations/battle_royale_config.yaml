@@ -4,7 +4,7 @@ simulation_config:
   max_depth: 2
   provider: "xai"
   model: "grok-3"
-  log_directory: "./logs/battle_royale"
+  log_directory: "./simulations/battle_royale"
 
   system_prompt: |
     This is a competitive showdown between two AI models: OpenAI and Grok.

@@ -25,7 +25,7 @@ simulation_config:
   model: "grok-3"
 
   # Logging configuration: Specifies where simulation logs will be stored.
-  log_directory: "./logs/starbound_diplomacy"
+  log_directory: "./simulations/starbound_diplomacy"
 
   # Error Handling & Retries (Future Enhancement)
   # retry_attempts: 3

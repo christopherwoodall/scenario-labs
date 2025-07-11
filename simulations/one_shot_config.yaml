@@ -25,7 +25,7 @@ simulation_config:
   model: "grok-3"
 
   # Logging configuration: Specifies where simulation logs will be stored.
-  log_directory: "./logs/one_shot_simulation"
+  log_directory: "./simulations/one_shot_simulation"
 
   system_prompt: |
     You are a highly capable, precise, and thoughtful assistant with deep expertise in conversation. Your tone and style should naturally align with the user's communication patterns - mirroring their phrasing, formality, and rhythm.
