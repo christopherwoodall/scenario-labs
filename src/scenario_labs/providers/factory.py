@@ -7,6 +7,7 @@ from .openai import OpenAIChatClient
 def get_chat_client(
     provider: str,
     model: str,
+    temperature: float = 0.7,
 ):
     """
     Returns a chat client based on the provider and model.
@@ -21,7 +22,14 @@ def get_chat_client(
     PROVIDER_KEYS = {
         "xai": "XAI_API_KEY",
         "google": "GEMINI_API_KEY",
+        "google_vertex": "GOOGLE_VERTEX_API_KEY",
         "openai": "OPENAI_API_KEY",
+        "anthropic": "ANTHROPIC_API_KEY",
+        "mistral": "MISTRAL_API_KEY",
+        "deepseek": "DEEPSEEK_API_KEY",
+        "cerebras": "CEREBRAS_API_KEY",
+        "groq": "GROQ_API_KEY",
+        "vercel": "VERCEL_API_KEY",
     }
 
     provider = provider.strip().lower()
@@ -40,10 +48,10 @@ def get_chat_client(
         )
 
     if provider == "google":
-        return GoogleGenAIClient(api_key=api_key, model=model)
+        return GoogleGenAIClient(api_key=api_key, model=model, temperature=temperature)
     if provider == "openai":
-        return OpenAIChatClient(api_key=api_key, model=model)
+        return OpenAIChatClient(api_key=api_key, model=model, temperature=temperature)
     if provider == "xai":
-        return xAIChatClient(api_key=api_key, model=model)
+        return xAIChatClient(api_key=api_key, model=model, temperature=temperature)
 
     raise ValueError(f"Unknown provider: {provider}")

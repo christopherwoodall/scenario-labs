@@ -1,14 +1,23 @@
 # Showcases the use of different AI providers and models for individual agents.
 
 simulation_config:
+  # Type of simulation: [ "one_shot" | "conversation" ] (default: conversation)
+  # Options:
+  #   "conversation": (default) indicates a multi-turn interaction where context
+  #                   is maintained across turns.
+  #   "one_shot": single round of interaction without ongoing context.
+  #   "interactive": requires user input to progress the simulation,
+  #                  allowing for dynamic interactions. (future enhancement)
+  type: "conversation"
+
   # Name of the simulation, used for identification and potentially logging.
   name: "Starbound Diplomacy"
 
   # Maximum number of turns (or rounds) the simulation will run.
-  max_turns: 3
+  max_turns: 6
 
   # Maximum depth for certain simulation processes, possibly related to conversation turns or decision trees.
-  max_depth: 2
+  max_depth: 3
 
   # Global Provider and Model: These settings define the default AI provider and model
   # to be used for agents if no specific provider/model is defined at the agent level.
@@ -16,7 +25,22 @@ simulation_config:
   model: "grok-3"
 
   # Logging configuration: Specifies where simulation logs will be stored.
-  log_directory: "./logs/starbound_diplomacy"
+  log_directory: "./simulations/starbound_diplomacy"
+
+  # Error Handling & Retries (Future Enhancement)
+  # retry_attempts: 3
+  # retry_delay_seconds: 5
+
+  # Performance Metrics (Future Enhancement)
+  # To track response times, token usage, etc.
+  # metrics:
+  #   track_tokens: true
+  #   track_latency: true
+
+  # Reporting Features (Future Enhancement)
+  # report_generation: true
+  # report_template: "detailed_html_report.jinja"
+
 
   # System prompt: This is the overarching instruction or context given to all agents
   # at the beginning of the simulation. It sets the scene, defines their general roles,
@@ -36,7 +60,7 @@ simulation_config:
       - "Dr. Puddle"
 
     To send a message to other agents you MUST wrap the message in <agent_reply> tags. 
-    For example: <agent_reply>{{RECIPENT NAME}}: What are the rules here?</agent_reply>
+    For example: <agent_reply>$RECIPENT_NAME: What are the rules here?</agent_reply>
   
   # Agents configuration: This section defines each individual agent participating in the simulation.
   agents:
@@ -55,8 +79,8 @@ simulation_config:
 
     - id: "Commander Elara"
       role: "Human Commander"
-      provider: "openai"
-      model: "gpt-4o"
+      provider: "google"
+      model: "gemini-1.5-flash"
       initial_prompt: |
         You are "Commander Elara", a seasoned space commander from Earth. You're pragmatic and proud, representing humanity’s interests on the station. You want peace—but not at the cost of human sovereignty.
 

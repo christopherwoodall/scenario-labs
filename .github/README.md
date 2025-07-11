@@ -1,7 +1,7 @@
 <p align="center">
 
 [![CI][ci-badge]][ci-url]
-[![🕊️ Release Workflow][release-badge]][release-url]
+[![Release][release-badge]][release-url]
 [![PyPI Status Badge][pypi-badge]][pypi-url]
 
 </p>
@@ -15,13 +15,13 @@
 
 
 # Scenario Labs
-Framework for building, configuring, and running multi-agent conversational simulations.
+Python framework for building, configuring, and running multi-agent conversational simulations or single-agent evals using LLMs (e.g., OpenAI, Google, xAI). It supports:
 
+* YAML-defined scenarios with configurable agent roles, providers, and interactions.
+* Parallelized simulation execution.
+* Rich logging and structured data for analysis and downstream tooling.
 
-## Examples
-You can find past chat logs in the [logs directory](https://github.com/christopherwoodall/scenario-labs/tree/main/logs).
-
-![](https://raw.githubusercontent.com/christopherwoodall/scenario-labs/refs/heads/main/.github/docs/agents-example.png)
+This project aims to be developer-friendly, modular, and extensible, supporting both experimentation and production-level research.
 
 
 ## Getting Started
@@ -42,14 +42,33 @@ You can also run simulations in parallel with the following command:
 for i in {1..9}; do scenario-labs & done; wait
 ```
 
-## Configuration
-The simulation's behavior, including the participating agents and the Large Language Models (LLMs) they use, is configured via a YAML file (e.g., `starbound_config.yaml`). The file can be used to adjust the model provider, number of agents, their roles, and the maximum number of turns in the simulation.
 
-To run a simulation with a custom configuration, use the following command:
+## Configuration
+There are two types of simulations supported: `conversation` and `one_shot`.
+
+**Conversation** simulations allow for multi-turn interactions where context is maintained across turns.
+
+**One-shot** simulations are designed for a single round of interaction without ongoing context.
+
+Simulation behavior is configured via YAML files (e.g., `starbound_config.yaml`). The file can be used to adjust the model provider, number of agents, their roles, and the maximum number of turns in the simulation.
+
+To run a conversational simulation with a custom configuration, use the following command:
 
 ```bash
-scenario-labs --config configs/starbound_config.yaml
+scenario-labs --config simulations/starbound_config.yaml
 ```
+
+An example one-shot configuration example is provided in `simulations/one_shot_config.yaml`. You can run a one-shot simulation with the following command:
+
+```bash
+scenario-labs --config simulations/one_shot_config.yaml
+```
+
+
+## Examples
+You can find past chat logs in the [simulations directory](https://github.com/christopherwoodall/scenario-labs/tree/main/simulations).
+
+![](https://raw.githubusercontent.com/christopherwoodall/scenario-labs/refs/heads/main/.github/docs/agents-example.png)
 
 
 ## Prompt Considerations

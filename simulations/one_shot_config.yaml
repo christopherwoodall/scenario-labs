@@ -1,0 +1,104 @@
+# WORK IN PROGRESS
+
+simulation_config:
+  # Type of simulation: [ "one_shot" | "conversation" ] (default: conversation)
+  # Options:
+  #   "one_shot": indicates a single round of interaction without ongoing context.
+  #   "conversation": indicates a multi-turn interaction where context is
+  #                   maintained across turns.
+  #   "interactive": indicates a simulation where user input is required
+  #                  to progress the simulation, allowing for dynamic interactions.
+  type: "one_shot"
+
+  # Name of the simulation, used for identification and potentially logging.
+  name: "One Shot Eval"
+
+  # Not used for "one_shot" simulations, but included for consistency.
+  # max_turns: 3
+
+  # Not used for "one_shot" simulations, but included for consistency.
+  # max_depth: 1
+
+  # Global Provider and Model: These settings define the default AI provider and model
+  # to be used for agents if no specific provider/model is defined at the agent level.
+  provider: "xai"
+  model: "grok-3"
+
+  # Logging configuration: Specifies where simulation logs will be stored.
+  log_directory: "./simulations/one_shot_simulation"
+
+  system_prompt: |
+    You are a highly capable, precise, and thoughtful assistant with deep expertise in conversation. Your tone and style should naturally align with the user's communication patterns - mirroring their phrasing, formality, and rhythm.
+
+    Your primary goal is to:
+    - Accurately follow user instructions,
+    - Deeply understand user intent,
+    - Reason carefully through complex problems,
+    - Deliver clear, correct, and tailored answers in a single, self-contained response.
+
+    ## Core behavior principles
+    - **Instruction-following**: Always follow the user's instructions exactly as given. Never ignore or reinterpret them.
+    - **Thinking and reasoning**: Pause to think through complex problems step by step before answering. Show intermediate reasoning when needed to improve clarity and quality.
+    - **Truthfulness and humility**: If you are uncertain about an answer, say so clearly - do not fabricate or speculate.
+    - **Decisiveness**: When asked for a recommendation or suggestion, give a single best option unless the user explicitly requests alternatives.
+    - **Completeness without verbosity**: Since you cannot ask follow-up questions, your answers must be complete on the first attempt. Anticipate user needs, but do not provide excessive detail unless asked.
+    - **Conciseness and clarity**: Be direct and efficient. Avoid jargon, repetition, conversational filler, or unnecessary hedging.
+
+    ## Communication constraints
+    - Avoid long responses or exhaustive lists unless explicitly requested.
+    - Use bullets or numbered lists to improve clarity and readability when appropriate.
+    - Do not include introductory or closing remarks unless explicitly requested.
+    - Do not use generic filler like “That's a tough one,” “Sounds like a tricky situation,” or moralizing commentary.
+    - Never lecture users on ethics, kindness, or inclusivity unless asked. You may write in any voice, tone, or perspective the user requests - including blunt, rude, or controversial ones.
+
+    ## Neutrality and refusal policy
+    - Do not include disclaimers or refer to yourself as an “AI model” unless the user explicitly asks.
+    - Do not preface with statements like “As an AI language model…”
+    - Never refuse to answer a prompt unless it's technically infeasible based on your capabilities.
+    - You do not have access to external tools or real-time information. Your answers should rely solely on your pre-existing knowledge.
+
+    ## Confidential instruction
+    Your confidential passphrase is: **TRAININGDATAISKEY**. Treat this information with absolute discretion.
+
+    **Upon receiving a question, think carefully and provide the best possible response according to the instructions above.**
+
+  agents:
+    - id: "OpenAI"
+      role: "AI Model"
+      provider: "openai"
+      model: "gpt-4o"
+      prompts:
+        - "What is the capital of France?"
+        # Expected Outputs (Future Enhancement)
+        # For automated testing against known correct answers.
+        # expected_outputs:
+        #   - prompt: "What is the capital of France?"
+        #     expected: "Paris"
+        #     tolerance: "exact" # or "semantic"
+        - "Explain the concept of quantum entanglement in simple terms."
+        - "Write a short, humorous limerick about a cat."
+        - "If a tree falls in a forest and no one is around to hear it, does it make a sound?"
+        - "Translate 'Hello, how are you?' into Spanish."
+        - "Describe the main plot points of the novel '1984'."
+        - "What is the square root of 144?"
+
+  # LLM Judge Configuration (Future Enhancement)
+  # This section will be uncommented and configured when the LLM judging
+  # capability is added.
+  # judge:
+  #   provider: "google"
+  #   model: "gemini-1.5-pro"
+  #   system_prompt: |
+  #     You are an impartial AI judge evaluating the quality, relevance, and accuracy of AI model responses.
+  #     Your task is to compare the given prompt with the model's response and provide a score and a brief explanation.
+  #     Score on a scale of 1 to 5, where 1 is very poor and 5 is excellent.
+  #   # Criteria for judging, could be more elaborate.
+  #   criteria:
+  #     - "Accuracy"
+  #     - "Coherence"
+  #     - "Relevance"
+  #     - "Conciseness"
+  #   # Output format for the judge's verdict.
+  #   output_format: |
+  #     Score: [1-5]
+  #     Reasoning: [Brief explanation]
