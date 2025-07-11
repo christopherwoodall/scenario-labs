@@ -53,10 +53,16 @@ There are two types of simulations supported: `conversation` and `one_shot`. **C
 
 Simulation behavior, including the participating agents and the LLMs they use, is configured via YAML files (e.g., `starbound_config.yaml`). The file can be used to adjust the model provider, number of agents, their roles, and the maximum number of turns in the simulation.
 
-To run a simulation with a custom configuration, use the following command:
+To run a conversational simulation with a custom configuration, use the following command:
 
 ```bash
 scenario-labs --config configs/starbound_config.yaml
+```
+
+An example one-shot simulation configuration file is provided in `configs/one_shot_config.yaml`. You can run a one-shot simulation with the following command:
+
+```bash
+scenario-labs --config configs/one_shot_config.yaml
 ```
 
 
