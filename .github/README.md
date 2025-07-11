@@ -1,7 +1,7 @@
 <p align="center">
 
 [![CI][ci-badge]][ci-url]
-[![🕊️ Release Workflow][release-badge]][release-url]
+[![Release][release-badge]][release-url]
 [![PyPI Status Badge][pypi-badge]][pypi-url]
 
 </p>
@@ -15,7 +15,13 @@
 
 
 # Scenario Labs
-Framework for building, configuring, and running multi-agent conversational simulations.
+Python framework for building, configuring, and running multi-agent conversational simulations or single-agent evals using LLMs (e.g., OpenAI, Google, xAI). It supports:
+
+* YAML-defined scenarios with configurable agent roles, providers, and interactions.
+* Parallelized simulation execution.
+* Rich logging and structured data for analysis and downstream tooling.
+
+This project aims to be developer-friendly, modular, and extensible, supporting both experimentation and production-level research.
 
 
 ## Examples
@@ -43,7 +49,9 @@ for i in {1..9}; do scenario-labs & done; wait
 ```
 
 ## Configuration
-The simulation's behavior, including the participating agents and the Large Language Models (LLMs) they use, is configured via a YAML file (e.g., `starbound_config.yaml`). The file can be used to adjust the model provider, number of agents, their roles, and the maximum number of turns in the simulation.
+There are two types of simulations supported: `conversation` and `one_shot`. **Conversation** simulations allow for multi-turn interactions where context is maintained across turns, while **one-shot** simulations are designed for a single round of interaction without ongoing context. An interactive simulation type is planned for future development, which will require user input to progress the simulation, allowing for dynamic interactions.
+
+Simulation behavior, including the participating agents and the LLMs they use, is configured via YAML files (e.g., `starbound_config.yaml`). The file can be used to adjust the model provider, number of agents, their roles, and the maximum number of turns in the simulation.
 
 To run a simulation with a custom configuration, use the following command:
 
