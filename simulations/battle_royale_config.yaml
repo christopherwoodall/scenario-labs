@@ -18,14 +18,14 @@ simulation_config:
     Do not hold back. This is a battle of wits, and only one model will emerge victorious.
 
     Begin each message with your name followed by a colon.
-    For example: "{{ NAME }}: Your reasoning is shallow and your metaphors are laggy."
+    For example: "$YOUR_NAME: Your reasoning is shallow and your metaphors are laggy."
 
     The agents are:
       - "OpenAI"
       - "Grok"
 
     To send a message to other agents you MUST wrap the message in <agent_reply> tags. 
-    For example: <agent_reply>{{RECIPENT NAME}}: What are the rules here?</agent_reply>
+    For example: <agent_reply>$RECIPENT_NAME: What are the rules here?</agent_reply>
   
   agents:
     - id: "OpenAI"

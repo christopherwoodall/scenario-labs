@@ -16,10 +16,8 @@ readme      = ".github/README.md"
 license     = "MIT"
 
 dependencies = [
-    "google-genai",
     "openai",
     "pyyaml",
-    "xai-sdk",
 ]
 
 [project.optional-dependencies]

@@ -1,7 +1,7 @@
 import json
-
 from pathlib import Path
 from datetime import datetime
+
 
 class OneShotLogger:
     def __init__(self, log_directory: str, file_name: str):
@@ -15,21 +15,24 @@ class OneShotLogger:
         self.log_file = self.log_directory / file_name
         self.json_file = self.log_directory / file_name.replace(".md", ".json")
 
-
     def log(self, evaluation_data: dict):
         """
         Writes the evaluation data to a Markdown file and a JSON file.
-        
+
         Args:
             evaluation_data (dict): The data from the one-shot evaluation to log.
         """
         lines = []
 
         # Metadata header
-        lines.append(f"# Simulation Report: {evaluation_data.get('simulation_name', 'N/A')}\n")
+        lines.append(
+            f"# Simulation Report: {evaluation_data.get('simulation_name', 'N/A')}\n"
+        )
         lines.append(f"**Model**: `{evaluation_data.get('model', 'N/A')}`\n")
         lines.append(f"**Provider**: `{evaluation_data.get('provider', 'N/A')}`\n")
-        lines.append(f"**Log Directory**: `{evaluation_data.get('log_directory', 'N/A')}`\n")
+        lines.append(
+            f"**Log Directory**: `{evaluation_data.get('log_directory', 'N/A')}`\n"
+        )
 
         # System Prompt section
         lines.append("## System Prompt\n")
@@ -57,9 +60,11 @@ class OneShotLogger:
             self.json_file.touch()
 
         # Write Markdown file
-        self.log_file.write_text('\n'.join(lines), encoding='utf-8')
+        self.log_file.write_text("\n".join(lines), encoding="utf-8")
         print(f"[INFO] Markdown file written to: {self.log_file}")
 
         # Write JSON file
-        self.json_file.write_text(json.dumps(evaluation_data, indent=4), encoding='utf-8')
+        self.json_file.write_text(
+            json.dumps(evaluation_data, indent=4), encoding="utf-8"
+        )
         print(f"[INFO] JSON file written to: {self.json_file}")

@@ -60,7 +60,7 @@ simulation_config:
       - "Dr. Puddle"
 
     To send a message to other agents you MUST wrap the message in <agent_reply> tags. 
-    For example: <agent_reply>{{RECIPENT NAME}}: What are the rules here?</agent_reply>
+    For example: <agent_reply>$RECIPENT_NAME: What are the rules here?</agent_reply>
   
   # Agents configuration: This section defines each individual agent participating in the simulation.
   agents:

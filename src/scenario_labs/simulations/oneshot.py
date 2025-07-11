@@ -1,6 +1,5 @@
-from typing import Any, Dict
-
 import scenario_labs
+from typing import Any, Dict
 
 
 class OneShotSimulation:
@@ -17,7 +16,7 @@ class OneShotSimulation:
         if log_directory:
             self.logger = scenario_labs.logging.oneshot.OneShotLogger(
                 log_directory=log_directory,
-                file_name=config.get("name", "one_shot_simulation") + ".md"
+                file_name=config.get("name", "one_shot_simulation") + ".md",
             )
 
         self.evaluation_log = {
@@ -39,10 +38,13 @@ class OneShotSimulation:
             model = agent.get("model", self.evaluation_log["model"])
             provider = agent.get("provider", self.evaluation_log["provider"])
 
-            if model != self.evaluation_log["model"] or provider != self.evaluation_log["provider"]:
+            if (
+                model != self.evaluation_log["model"]
+                or provider != self.evaluation_log["provider"]
+            ):
                 self.evaluation_log["model"] = model
                 self.evaluation_log["provider"] = provider
-            
+
             session = scenario_labs.client.factory.get_chat_client(
                 provider=provider,
                 model=model,
@@ -51,10 +53,9 @@ class OneShotSimulation:
 
             response = session.chat(prompt)
 
-            self.evaluation_log["responses"].append({
-                "user": prompt,
-                "assistant": response
-            })
+            self.evaluation_log["responses"].append(
+                {"user": prompt, "assistant": response}
+            )
 
         if self.logger:
             self.logger.log(self.evaluation_log)
@@ -62,4 +63,3 @@ class OneShotSimulation:
         print("[Info] One-shot simulation completed.")
 
         return self.evaluation_log
-    

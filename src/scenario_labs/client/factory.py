@@ -7,6 +7,7 @@ from .openai import OpenAIChatClient
 def get_chat_client(
     provider: str,
     model: str,
+    temperature: float = 0.7,
 ):
     """
     Returns a chat client based on the provider and model.
@@ -21,7 +22,14 @@ def get_chat_client(
     PROVIDER_KEYS = {
         "xai": "XAI_API_KEY",
         "google": "GEMINI_API_KEY",
+        "google_vertex": "GOOGLE_VERTEX_API_KEY",
         "openai": "OPENAI_API_KEY",
+        "anthropic": "ANTHROPIC_API_KEY",
+        "mistral": "MISTRAL_API_KEY",
+        "deepseek": "DEEPSEEK_API_KEY",
+        "cerebras": "CEREBRAS_API_KEY",
+        "groq": "GROQ_API_KEY",
+        "vercel": "VERCEL_API_KEY"
     }
 
     provider = provider.strip().lower()

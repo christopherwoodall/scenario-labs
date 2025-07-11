@@ -4,6 +4,9 @@ from abc import ABC, abstractmethod
 class ChatClient(ABC):
     model: str
     client: str
+    temperature: float
+    session: any
+    messages: list
 
     @abstractmethod
     def chat(self, message: str) -> str:
@@ -27,3 +30,11 @@ class ChatClient(ABC):
             system_prompt (str): The system prompt to initialize the chat model with.
         """
         pass
+
+    # @abstractmethod
+    def reset(self):
+        """
+        Resets the chat session, clearing all messages.
+        """
+        self.messages = []
+        self.session = None
