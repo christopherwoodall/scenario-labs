@@ -6,4 +6,4 @@ from . import agents, client, experiment, simulations
 from .agents import LLMAgent
 from .client import xai, base, google, openai, factory
 from .simulations import oneshot, conversation
-from .logging import conversation
+from .logging import conversation, oneshot

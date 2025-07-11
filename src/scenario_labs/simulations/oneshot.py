@@ -10,12 +10,21 @@ class OneShotSimulation:
 
     def __init__(self, config: Dict[str, Any]):
         self.config = config
+        self.logger = False
+
+        log_directory = config.get("log_directory", False)
+
+        if log_directory:
+            self.logger = scenario_labs.logging.oneshot.OneShotLogger(
+                log_directory=log_directory,
+                file_name=config.get("name", "one_shot_simulation") + ".md"
+            )
+
         self.evaluation_log = {
+            "simulation_name": config.get("name", "one_shot_simulation"),
             "model": config.get("model", "grok-3").strip().lower(),
             "provider": config.get("provider", "xai").strip().lower(),
             "system_prompt": config.get("system_prompt", ""),
-            "simulation_name": config.get("name", "one_shot_simulation"),
-            "log_directory": config.get("log_directory", "logs/one_shot"),
             "responses": [],
         }
 
@@ -30,6 +39,10 @@ class OneShotSimulation:
             model = agent.get("model", self.evaluation_log["model"])
             provider = agent.get("provider", self.evaluation_log["provider"])
 
+            if model != self.evaluation_log["model"] or provider != self.evaluation_log["provider"]:
+                self.evaluation_log["model"] = model
+                self.evaluation_log["provider"] = provider
+            
             session = scenario_labs.client.factory.get_chat_client(
                 provider=provider,
                 model=model,
@@ -39,13 +52,12 @@ class OneShotSimulation:
             response = session.chat(prompt)
 
             self.evaluation_log["responses"].append({
-                "system": self.evaluation_log["system_prompt"],
                 "user": prompt,
                 "assistant": response
             })
 
-        # TODO - Implement logging to file
-        # self.evaluation_log["log_file"] = self._save_log_to_file()
+        if self.logger:
+            self.logger.log(self.evaluation_log)
 
         print("[Info] One-shot simulation completed.")
 
