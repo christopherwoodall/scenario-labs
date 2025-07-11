@@ -1,5 +1,3 @@
-
-
 class OneShotSimulation:
     """
     Class to handle one-shot simulations.
