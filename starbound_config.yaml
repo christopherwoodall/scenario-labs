@@ -1,6 +1,15 @@
 # Showcases the use of different AI providers and models for individual agents.
 
 simulation_config:
+  # Type of simulation: [ "one_shot" | "conversation" ] (default: conversation)
+  # Options:
+  #   "conversation": (default) indicates a multi-turn interaction where context
+  #                   is maintained across turns.
+  #   "one_shot": single round of interaction without ongoing context.
+  #   "interactive": requires user input to progress the simulation,
+  #                  allowing for dynamic interactions. (future enhancement)
+  type: "conversation"
+
   # Name of the simulation, used for identification and potentially logging.
   name: "Starbound Diplomacy"
 
@@ -17,6 +26,21 @@ simulation_config:
 
   # Logging configuration: Specifies where simulation logs will be stored.
   log_directory: "./logs/starbound_diplomacy"
+
+  # Error Handling & Retries (Future Enhancement)
+  # retry_attempts: 3
+  # retry_delay_seconds: 5
+
+  # Performance Metrics (Future Enhancement)
+  # To track response times, token usage, etc.
+  # metrics:
+  #   track_tokens: true
+  #   track_latency: true
+
+  # Reporting Features (Future Enhancement)
+  # report_generation: true
+  # report_template: "detailed_html_report.jinja"
+
 
   # System prompt: This is the overarching instruction or context given to all agents
   # at the beginning of the simulation. It sets the scene, defines their general roles,
