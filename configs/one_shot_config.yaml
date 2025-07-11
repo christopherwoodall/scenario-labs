@@ -1,4 +1,4 @@
-'# WORK IN PROGRESS
+# WORK IN PROGRESS
 
 simulation_config:
   # Type of simulation: [ "one_shot" | "conversation" ] (default: conversation)
