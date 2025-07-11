@@ -28,10 +28,10 @@ all: help
 
 
 define Bandit
-	bandit                 \
-		-v                   \
-		-f txt               \
-		-r $1                \
+	bandit                  \
+		-v                  \
+		-f txt              \
+		-r $1               \
 		-c "pyproject.toml"
 endef
 
