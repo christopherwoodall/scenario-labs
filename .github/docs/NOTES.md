@@ -25,3 +25,7 @@ Scratchpad for random thoughts, ideas, and links related to the project.
 ## Tools and Libraries
 - [OpenCode](https://opencode.ai/docs/config/)
 - [LLM Pricing](https://llmprices.dev/)
+
+
+## Inspiration
+- [PIG Eval](https://github.com/1a3orn/winning-pig-eval/tree/main/src/games)
