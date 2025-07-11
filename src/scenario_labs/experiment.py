@@ -1,8 +1,10 @@
 import yaml
 import argparse
-import scenario_labs
+
 from typing import Any, Dict
 from pathlib import Path
+
+import scenario_labs
 
 
 def run_conversation_simulation(simulation_config: Dict[str, Any]):
@@ -58,12 +60,9 @@ def run_conversation_simulation(simulation_config: Dict[str, Any]):
     return simulation.run()
 
 
-def run_one_shot_simulation(simulation_config: Dict[str, Any]): ...
-
-
 def run_simulation(simulation_config: Dict[str, Any]):
     """
-    Runs the LLM-based Conversational Simulation using the provided configuration.
+    Runs the LLM-based simulation using the provided configuration.
 
     Args:
         simulation_config (Dict[str, Any]): The configuration dictionary containing simulation parameters.
@@ -82,8 +81,9 @@ def run_simulation(simulation_config: Dict[str, Any]):
 
     elif simulation_type == "one_shot":
         print("[Info] Running one-shot simulation...")
-        # Placeholder for one-shot simulation logic
-        exit()
+        evaluation = scenario_labs.simulations.oneshot.OneShotSimulation(simulation_config)
+        evaluation_log = evaluation.run()
+        return evaluation_log
 
     elif simulation_type == "interactive":
         print("[Info] Running interactive simulation...")
