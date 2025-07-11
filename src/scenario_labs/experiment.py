@@ -26,7 +26,7 @@ def run_conversation_simulation(simulation_config: Dict[str, Any]):
         model = agent.get("model", model)
         provider = agent.get("provider", provider)
 
-        session = scenario_labs.client.factory.get_chat_client(
+        session = scenario_labs.providers.factory.get_chat_client(
             provider=provider,
             model=model,
         )

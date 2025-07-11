@@ -1,7 +1,7 @@
 import re
 from typing import Any, Dict, List, Optional
 from itertools import cycle
-from scenario_labs.logging.conversation import ConversationLogger
+from scenario_labs.logging.conversation_logger import ConversationLogger
 
 
 class ConversationSimulation:

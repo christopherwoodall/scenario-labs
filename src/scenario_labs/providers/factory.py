@@ -48,10 +48,10 @@ def get_chat_client(
         )
 
     if provider == "google":
-        return GoogleGenAIClient(api_key=api_key, model=model)
+        return GoogleGenAIClient(api_key=api_key, model=model, temperature=temperature)
     if provider == "openai":
-        return OpenAIChatClient(api_key=api_key, model=model)
+        return OpenAIChatClient(api_key=api_key, model=model, temperature=temperature)
     if provider == "xai":
-        return xAIChatClient(api_key=api_key, model=model)
+        return xAIChatClient(api_key=api_key, model=model, temperature=temperature)
 
     raise ValueError(f"Unknown provider: {provider}")

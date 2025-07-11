@@ -1,11 +1,10 @@
 import openai
-from scenario_labs.client.base import ChatClient
+from scenario_labs.providers.base import ChatClient
 
 
-class xAIChatClient(ChatClient):
-    def __init__(self, api_key: str, model: str = "grok-3", temperature: float = 0.7):
-        self.api_key = api_key
-        self.base_url = "https://api.x.ai/v1"
+class OpenAIChatClient(ChatClient):
+    def __init__(self, api_key: str, model: str = "gpt-4o", temperature: float = 0.7):
+        openai.api_key = api_key
 
         self.model = model
         self.temperature = temperature
@@ -20,9 +19,8 @@ class xAIChatClient(ChatClient):
         Args:
             system_prompt (str): The system prompt to initialize the chat model with.
         """
-        self.session = openai.OpenAI(api_key=self.api_key, base_url=self.base_url)
-
-        self.messages.append({"role": "system", "content": system_prompt})
+        self.session = openai.OpenAI()
+        self.messages = [{"role": "system", "content": system_prompt}]
 
     def chat(self, message: str) -> str:
         """
@@ -51,4 +49,4 @@ class xAIChatClient(ChatClient):
 
 
 # References
-#  - https://docs.x.ai/docs/guides/migration
+#  - https://github.com/openai/openai-python

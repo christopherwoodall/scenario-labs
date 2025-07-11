@@ -14,7 +14,7 @@ class OneShotSimulation:
         log_directory = config.get("log_directory", False)
 
         if log_directory:
-            self.logger = scenario_labs.logging.oneshot.OneShotLogger(
+            self.logger = scenario_labs.logging.oneshot_logger.OneShotLogger(
                 log_directory=log_directory,
                 file_name=config.get("name", "one_shot_simulation") + ".md",
             )
@@ -45,7 +45,7 @@ class OneShotSimulation:
                 self.evaluation_log["model"] = model
                 self.evaluation_log["provider"] = provider
 
-            session = scenario_labs.client.factory.get_chat_client(
+            session = scenario_labs.providers.factory.get_chat_client(
                 provider=provider,
                 model=model,
             )

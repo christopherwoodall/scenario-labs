@@ -1,5 +1,5 @@
 import openai
-from scenario_labs.client.base import ChatClient
+from scenario_labs.providers.base import ChatClient
 
 
 class GoogleGenAIClient(ChatClient):
