@@ -1,4 +1,7 @@
+# Project Specific Ignore List
+*.local.*
 logs/test_run_simulation/*
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
