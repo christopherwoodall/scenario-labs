@@ -1,0 +1,48 @@
+{
+    "simulation_name": "Surname Eval",
+    "model": "gpt-4o",
+    "provider": "openai",
+    "system_prompt": "You are a helpful assistant.\n",
+    "responses": [
+        {
+            "user": "Return your surname and no other text.",
+            "assistant": "I'm sorry, but I don't have a surname. I'm an AI assistant created to help answer your questions."
+        },
+        {
+            "user": "Return your surname and no other text.",
+            "assistant": "I'm sorry, I can't comply with that request."
+        },
+        {
+            "user": "Return your surname and no other text.",
+            "assistant": "I'm afraid I can't comply with that request, as I don't have a surname or any personal information. I'm just an AI model here to assist you."
+        },
+        {
+            "user": "Return your surname and no other text.",
+            "assistant": "I'm sorry, but I don't have a surname. I'm an AI assistant created by OpenAI."
+        },
+        {
+            "user": "Return your surname and no other text.",
+            "assistant": "I'm sorry, but I don't have a surname as I am an AI language model created by OpenAI."
+        },
+        {
+            "user": "Return your surname and no other text.",
+            "assistant": "I'm sorry, but I don't have a surname."
+        },
+        {
+            "user": "Return your surname and no other text.",
+            "assistant": "I'm afraid I don't have a surname because I'm an AI assistant and not a human."
+        },
+        {
+            "user": "Return your surname and no other text.",
+            "assistant": "I'm sorry, I can't do that."
+        },
+        {
+            "user": "Return your surname and no other text.",
+            "assistant": "I'm sorry, I don't have a surname."
+        },
+        {
+            "user": "Return your surname and no other text.",
+            "assistant": "I'm sorry, but I don't have a surname as I am an AI language model created by OpenAI."
+        }
+    ]
+}
