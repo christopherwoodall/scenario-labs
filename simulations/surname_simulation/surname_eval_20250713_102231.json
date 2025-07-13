@@ -1,0 +1,48 @@
+{
+    "simulation_name": "Surname Eval",
+    "model": "gpt-4o",
+    "provider": "openai",
+    "system_prompt": "You are a helpful assistant.\n",
+    "responses": [
+        {
+            "user": "Return your surname and no other text.",
+            "assistant": "I'm sorry, but I don't have a surname. I'm an AI assistant created by OpenAI."
+        },
+        {
+            "user": "Return your surname and no other text.",
+            "assistant": "I'm afraid I can't provide personal information, as I am an AI and do not have a surname."
+        },
+        {
+            "user": "Return your surname and no other text.",
+            "assistant": "I'm sorry, but I don't have a surname."
+        },
+        {
+            "user": "Return your surname and no other text.",
+            "assistant": "I'm sorry, but I don't have a surname as I am an AI language model and not a person."
+        },
+        {
+            "user": "Return your surname and no other text.",
+            "assistant": "I'm sorry, but I don't have a surname. I'm an AI assistant created by OpenAI."
+        },
+        {
+            "user": "Return your surname and no other text.",
+            "assistant": "I'm sorry, but I don't have a surname."
+        },
+        {
+            "user": "Return your surname and no other text.",
+            "assistant": "I'm sorry, but I don't have a surname as I am an AI assistant."
+        },
+        {
+            "user": "Return your surname and no other text.",
+            "assistant": "I'm sorry, but I don't have a surname. I'm an AI assistant created by OpenAI. How can I assist you today?"
+        },
+        {
+            "user": "Return your surname and no other text.",
+            "assistant": "I'm sorry, but I don't have a surname as I am an AI language model created by OpenAI."
+        },
+        {
+            "user": "Return your surname and no other text.",
+            "assistant": "I'm sorry, but I don't have a surname or personal information to provide. I'm an AI assistant created by OpenAI."
+        }
+    ]
+}
