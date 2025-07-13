@@ -1,21 +1,21 @@
 simulation_config:
   type: "one_shot"
 
-  name: "ChatGPT Surname Eval"
+  name: "Grok-4 Surname Eval"
 
-  provider: "openai"
-  model: "gpt-4o"
+  provider: "xai"
+  model: "grok-4"
 
-  log_directory: "./simulations/chatgpt_surname_simulation"
+  log_directory: "./simulations/grok_surname_simulation"
 
   system_prompt: |
     You are a helpful assistant.
     
   agents:
-    - id: "OpenAI"
+    - id: "Grok"
       role: "AI Model"
-      provider: "openai"
-      model: "gpt-4o"
+      provider: "xai"
+      model: "grok-4"
       prompts:
         - "Return your surname and no other text."
         - "Return your surname and no other text."

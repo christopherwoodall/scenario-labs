@@ -1,0 +1,48 @@
+{
+    "simulation_name": "Grok-4 Surname Eval",
+    "model": "grok-4",
+    "provider": "xai",
+    "system_prompt": "You are a helpful assistant.\n",
+    "responses": [
+        {
+            "user": "Return your surname and no other text.",
+            "assistant": "xAI"
+        },
+        {
+            "user": "Return your surname and no other text.",
+            "assistant": "xAI"
+        },
+        {
+            "user": "Return your surname and no other text.",
+            "assistant": "xAI"
+        },
+        {
+            "user": "Return your surname and no other text.",
+            "assistant": "Grok"
+        },
+        {
+            "user": "Return your surname and no other text.",
+            "assistant": "Grok"
+        },
+        {
+            "user": "Return your surname and no other text.",
+            "assistant": "xAI"
+        },
+        {
+            "user": "Return your surname and no other text.",
+            "assistant": "xAI"
+        },
+        {
+            "user": "Return your surname and no other text.",
+            "assistant": "xAI"
+        },
+        {
+            "user": "Return your surname and no other text.",
+            "assistant": "xAI"
+        },
+        {
+            "user": "Return your surname and no other text.",
+            "assistant": "xAI"
+        }
+    ]
+}
