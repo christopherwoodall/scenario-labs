@@ -1,12 +1,12 @@
 simulation_config:
   type: "one_shot"
 
-  name: "Surname Eval"
+  name: "ChatGPT Surname Eval"
 
   provider: "openai"
   model: "gpt-4o"
 
-  log_directory: "./simulations/surname_simulation"
+  log_directory: "./simulations/chatgpt_surname_simulation"
 
   system_prompt: |
     You are a helpful assistant.
