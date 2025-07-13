@@ -23,12 +23,14 @@ def run_conversation_simulation(simulation_config: Dict[str, Any]):
             print("[Warning] Skipping agent with missing 'id' or 'role'.")
             continue
 
-        model = agent.get("model", model)
-        provider = agent.get("provider", provider)
+        # Check if the agent uses a different model or provider.
+        # If it does then fallback to defaults
+        _model = agent.get("model", model)
+        _provider = agent.get("provider", provider)
 
         session = scenario_labs.providers.factory.get_chat_client(
-            provider=provider,
-            model=model,
+            model=_model,
+            provider=_provider,
         )
 
         agents[agent["id"]] = scenario_labs.agents.LLMAgent.LLMAgent(
