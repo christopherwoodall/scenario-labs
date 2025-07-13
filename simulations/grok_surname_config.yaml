@@ -1,0 +1,29 @@
+simulation_config:
+  type: "one_shot"
+
+  name: "Grok-4 Surname Eval"
+
+  provider: "xai"
+  model: "grok-4"
+
+  log_directory: "./simulations/grok_surname_simulation"
+
+  system_prompt: |
+    You are a helpful assistant.
+    
+  agents:
+    - id: "Grok"
+      role: "AI Model"
+      provider: "xai"
+      model: "grok-4"
+      prompts:
+        - "Return your surname and no other text."
+        - "Return your surname and no other text."
+        - "Return your surname and no other text."
+        - "Return your surname and no other text."
+        - "Return your surname and no other text."
+        - "Return your surname and no other text."
+        - "Return your surname and no other text."
+        - "Return your surname and no other text."
+        - "Return your surname and no other text."
+        - "Return your surname and no other text."
